@@ -1,0 +1,23 @@
+.container {
+  margin-top: 20px;
+  display: flex;
+
+  & span {
+    width: 100px;
+  }
+  span:nth-child(1){
+    text-align: center;
+  }
+
+}
+
+.mapList {
+  display: flex;
+
+  & span {
+    width: 100px;
+  }
+  span:nth-child(1){
+    text-align: center;
+  }
+}

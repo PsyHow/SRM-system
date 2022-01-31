@@ -1,0 +1,15 @@
+.header {
+  height: 65px;
+  background-color: rgb(209, 224, 237);
+  width: 100vw;
+  display: flex;
+  align-items: center;
+
+  & input {
+    width: 680px;
+    border-radius: 25px;
+    margin-left: 18px;
+  }
+}
+
+
