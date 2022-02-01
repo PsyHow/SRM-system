@@ -2,11 +2,10 @@ import { instance } from './apiConfig';
 
 export const taskDataAPI = {
   getTaskOData() {
-    return instance.get<TaskResponse>(`/odata/tasks`, {
-      params: {
-        tenantguid: '7189c2ac-a800-40ae-b011-2ec6bfee6e1a',
-      },
-    });
+    return instance.get<TaskResponse>(`/odata/tasks`);
+  },
+  getTask(id: number) {
+    return instance.get(`api/Tasks/${id}`);
   },
 };
 

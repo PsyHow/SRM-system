@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 970px;
+  height: 100%;
+  background-color: #ecf3f7;
+
+  .header {
+    height: 65px;
+    background-color: #1a4876;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    & span {
+      color: #a9a9b2;
+      font-size: 14px;
+      margin-left: 35px;
+    }
+
+    & p {
+      font-size: 14px;
+      margin-left: 35px;
+    }
+    & textarea {
+      margin-top: 14px;
+      margin-left: 35px;
+      max-width: 620px;
+      height: 120px;
+      resize: none;
+    }
+    & button {
+      background-color: #008cf0;
+      width: 150px;
+      height: 35px;
+      border: none;
+      border-radius: 25px;
+      margin-top: 40px;
+      margin-left: 35px;
+      color: #ffffff;
+      font-size: 14px;
+    }
+  }
+
+}

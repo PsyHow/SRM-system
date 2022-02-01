@@ -9,7 +9,7 @@ import { Navigation } from 'components/Navigation/Navigation';
 const App: FC = () => (
   <div className={style.container}>
     <Navigation />
-    <div>
+    <div className={style.content}>
       <Header />
       <ApplicationList />
     </div>

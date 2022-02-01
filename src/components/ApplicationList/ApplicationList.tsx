@@ -1,14 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import style from './ApplicationList.module.scss';
 
 import { TaskData } from 'api/taskDataAPI';
-import { fetchTaskOData } from 'store/applicationListReducer';
+import { UpdateTask } from 'components/UpdateTask/UpdateTask';
+import { fetchTaskOData, getTask } from 'store/applicationListReducer';
 import { AppRootState } from 'store/store';
 
 export const ApplicationList: FC = () => {
+  const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const appList = useSelector<AppRootState, TaskData[]>(
     state => state.applicationListReducer.items,
@@ -18,9 +20,15 @@ export const ApplicationList: FC = () => {
     dispatch(fetchTaskOData());
   }, [dispatch]);
 
+  const onClickToggleHandle = (): void => {
+    setToggle(true);
+  };
+
   return (
     <div className={style.container}>
-      <button type="button">Создать Заявку</button>
+      <button type="button" className={style.createTask} onClick={onClickToggleHandle}>
+        Создать Заявку
+      </button>
       <table className={style.table}>
         <thead>
           <tr>
@@ -31,18 +39,32 @@ export const ApplicationList: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {appList.map(({ id, name, statusName, executorName, statusRgb }) => (
-            <tr key={id}>
-              <td>{id}</td>
-              <td>{name}</td>
-              <td>
-                <span style={{ backgroundColor: statusRgb }}>{statusName}</span>
-              </td>
-              <td>{executorName}</td>
-            </tr>
-          ))}
+          {appList.map(task => {
+            const getTaskByIdHandle = (): void => {
+              dispatch(getTask(task));
+              setToggle(true);
+            };
+            return (
+              <tr key={task.id} onClick={getTaskByIdHandle}>
+                <td>{task.id}</td>
+                <td>{task.name}</td>
+                <td>
+                  <span style={{ backgroundColor: task.statusRgb }}>
+                    {task.statusName}
+                  </span>
+                </td>
+                <td>{task.executorName}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      {toggle && (
+        <div className={style.task}>
+          {/* <TaskForm setToggle={setToggle} /> */}
+          <UpdateTask />
+        </div>
+      )}
     </div>
   );
 };

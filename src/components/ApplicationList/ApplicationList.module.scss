@@ -1,5 +1,5 @@
 .container {
-  & button {
+  .createTask {
     margin-top: 22px;
     margin-left: 200px;
     padding: 10px;
@@ -7,44 +7,38 @@
     height: 40px;
     background-color: #008cf0;
     border-radius: 25px;
+    border: none;
     font-size: 16px;
+    color: #ffffff;
   }
 
   .table {
     margin-top: 10px;
-    display: flex;
-    flex-direction: column;
     width: 100vw;
+    border-collapse: collapse;
 
     & thead tr td {
       width: 120px;
       height: 25px;
       padding-right: 10px;
-      border-bottom: 1px solid #dae0e7;
       position: relative;
       font-weight: bold;
       font-size: 16px;
+      border-bottom: 1px solid #dae0e7;
 
       &:before {
         position: absolute;
-        top: 0;
         right: 0;
-        left: 0;
-        bottom: 0;
-        height: 50%;
-        margin-top: 8px;
-        border-right: 1px solid #dae0e7;
+        height: 70%;
+        width: 1px;
+        background-color: #dae0e7;
         content: '';
       }
     }
 
     & tr td:nth-child(1) {
       text-align: center;
-      width: 100px;
-    }
-
-    & tr td:nth-child(2) {
-      width: 300px;
+      width: 120px;
     }
 
     & tr td:last-child {
@@ -67,5 +61,12 @@
         border-radius: 25px;
       }
     }
+  }
+
+  .task {
+    position: absolute;
+    top: 65px;
+    right: 0;
+    bottom: 0;
   }
 }
