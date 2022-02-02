@@ -5,19 +5,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './UpdateTask.module.scss';
 
 import { TaskData } from 'api/taskDataAPI';
-import { getTask, getTaskById, updateTaskData } from 'store/applicationListReducer';
+import { getTaskById, updateTaskData } from 'store/applicationListReducer';
 import { AppRootState } from 'store/store';
 
-export const UpdateTask: FC = () => {
+type PropsType = {
+  setToggle: (value: boolean) => void;
+};
+
+export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
   const dispatch = useDispatch();
   const item = useSelector<AppRootState, TaskData>(
     state => state.applicationListReducer.item,
   );
   const [value, setValue] = useState('');
-
-  useEffect(() => {
-    dispatch(getTask(item));
-  }, [dispatch, item]);
 
   useEffect(() => {
     dispatch(getTaskById(item.id));
@@ -30,7 +30,7 @@ export const UpdateTask: FC = () => {
   };
 
   const onClickButtonHandle = (): void => {
-    dispatch(updateTaskData(value));
+    dispatch(updateTaskData(item, value));
   };
 
   return (
@@ -38,17 +38,49 @@ export const UpdateTask: FC = () => {
       <div className={style.header}>
         <span>№ {item.id}</span>
         <span className={style.itemName}>{item.name}</span>
-        <button type="button">X</button>
+        <button
+          type="button"
+          className={style.closeButton}
+          onClick={() => setToggle(false)}
+        >
+          X
+        </button>
       </div>
       <div className={style.content}>
         <div className={style.leftContent}>
           <span>Описание</span>
           <p>{item.description}</p>
           <span>Добавление коментариев</span>
-          <textarea value={value} onChange={onChangeTextHandle} />
+          <textarea
+            value={value}
+            onChange={onChangeTextHandle}
+          />
           <button type="button" onClick={onClickButtonHandle}>
             Сохранить
           </button>
+          {item.lifetimeItems &&
+            item.lifetimeItems.map(LfItem => (
+              <div key={LfItem.id} className={style.containerComment}>
+                <div className={style.commentBox}>
+                  <div className={style.avatar} />
+                  <div>
+                    <div className={style.name}>{item.initiatorName}</div>
+                    <span className={style.date}>
+                      {new Date(LfItem.createdAt).toLocaleString('ru', {
+                        day: 'numeric',
+                        month: 'long',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      })}{' '}
+                      прокомментировал
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className={style.comment}>{LfItem.comment}</p>
+                </div>
+              </div>
+            ))}
         </div>
         <div className={style.rightContent}>
           <div className={style.statusBox}>

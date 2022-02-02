@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './ApplicationList.module.scss';
 
 import { TaskData } from 'api/taskDataAPI';
-import { TaskForm } from 'components/TaskForm/TaskForm';
 import { UpdateTask } from 'components/UpdateTask/UpdateTask';
-import { fetchTaskOData, getTask } from 'store/applicationListReducer';
+import { fetchTaskOData, getTask, getTaskById } from 'store/applicationListReducer';
 import { AppRootState } from 'store/store';
 
 export const ApplicationList: FC = () => {
@@ -43,6 +42,7 @@ export const ApplicationList: FC = () => {
           {appList.map(task => {
             const getTaskByIdHandle = (): void => {
               dispatch(getTask(task));
+              // dispatch(getTaskById(task.id));
               setToggle(true);
             };
             return (
@@ -63,7 +63,7 @@ export const ApplicationList: FC = () => {
       {toggle && (
         <div className={style.task}>
           {/* <TaskForm setToggle={setToggle} /> */}
-          <UpdateTask />
+          <UpdateTask setToggle={setToggle} />
         </div>
       )}
     </div>

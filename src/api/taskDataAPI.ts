@@ -9,8 +9,8 @@ export const taskDataAPI = {
   getTask(id: number) {
     return instance.get<TaskData>(`api/${tenantguid}/Tasks/${id}`);
   },
-  updateTask(comment: string) {
-    return instance.put<UpdateTaskResponse>(`/api/${tenantguid}/Tasks`, { comment });
+  updateTask(data: UpdateTaskData) {
+    return instance.put<UpdateTaskData>(`/api/${tenantguid}/Tasks`, { ...data });
   },
   createTaskData(name: string, description: string) {
     return instance.post<TaskData>(`/api/${tenantguid}/Tasks`, {
@@ -43,33 +43,17 @@ export type TaskData = {
   serviceId: number;
   serviceName: string;
   resolutionDatePlan: Date;
-  tags: [
-    {
-      id: number;
-      name: string;
-    },
-  ];
+  tags: TagsType[];
   initiatorId: number;
   initiatorName: string;
   executorId: number;
   executorName: string;
   executorGroupId: number;
   executorGroupName: string;
-  lifetimeItems: [
-    {
-      id: number;
-      userName: string;
-      lifetimeType: number;
-      createdAt: Date;
-      comment: string;
-      fieldName: string;
-      oldFieldValue: string;
-      newFieldValue: string;
-    },
-  ];
+  lifetimeItems: LifyTimeType[];
 };
 
-export type UpdateTaskResponse = {
+export type UpdateTaskData = {
   id: number;
   name: string;
   description: string;
@@ -80,8 +64,24 @@ export type UpdateTaskResponse = {
   priorityId: number;
   serviceId: number;
   resolutionDatePlan: Date;
-  tags: [0];
+  tags: TagsType[];
   initiatorId: number;
   executorId: number;
   executorGroupId: number;
 };
+
+type TagsType = {
+  id: number;
+  name: string;
+};
+
+type LifyTimeType = {
+  id: number;
+  userName: string;
+  lifetimeType: number;
+  createdAt: Date;
+  comment: string;
+  fieldName: string;
+  oldFieldValue: string;
+  newFieldValue: string;
+}
