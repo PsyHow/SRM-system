@@ -1,11 +1,11 @@
 import { Dispatch } from 'redux';
 
 import { TaskData, taskDataAPI } from 'api/taskDataAPI';
-import { AppRootState } from 'store/store';
 
 const initialState = {
   items: [] as TaskData[],
   item: {} as TaskData,
+  comment: '',
 };
 
 export const applicationListReducer = (
@@ -25,6 +25,18 @@ export const applicationListReducer = (
         item: action.payload,
       };
     }
+    case 'SET_COMMENT': {
+      return {
+        ...state,
+        comment: action.payload,
+      };
+    }
+    case 'CREATE_TASK': {
+      return {
+        ...state,
+        items: [...state.items, action.payload.data],
+      };
+    }
     default:
       return state;
   }
@@ -42,19 +54,49 @@ export const getTask = (item: TaskData) =>
     payload: item,
   } as const);
 
+export const setComment = (value: string) =>
+  ({
+    type: 'SET_COMMENT',
+    payload: value,
+  } as const);
+
+export const createTask = (data: TaskData) =>
+  ({
+    type: 'CREATE_TASK',
+    payload: {
+      data,
+    },
+  } as const);
+
+export const createTaskOData =
+  (name: string, description: string) => (dispatch: Dispatch) => {
+    taskDataAPI.createTaskData(name, description).then(res => {
+      dispatch(createTask(res.data));
+    });
+  };
+
 export const fetchTaskOData = () => (dispatch: Dispatch) => {
   taskDataAPI.getTaskOData().then(res => {
     dispatch(getAppList(res.data.value));
   });
 };
 
-export const getTaskById = () => (dispatch: Dispatch, getState: () => AppRootState) => {
-  const { id } = getState().applicationListReducer.item;
+export const getTaskById = (id: number) => (dispatch: Dispatch) => {
   taskDataAPI.getTask(id).then(res => {
-    dispatch(getTask(res.data.value));
+    dispatch(getTask(res.data));
+  });
+};
+
+export const updateTaskData = (comment: string) => (dispatch: Dispatch) => {
+  taskDataAPI.updateTask(comment).then(res => {
+    dispatch(setComment(res.data.comment));
   });
 };
 
 type InitialState = typeof initialState;
 
-type ActionReducer = ReturnType<typeof getAppList> | ReturnType<typeof getTask>;
+type ActionReducer =
+  | ReturnType<typeof getAppList>
+  | ReturnType<typeof getTask>
+  | ReturnType<typeof setComment>
+  | ReturnType<typeof createTask>;
