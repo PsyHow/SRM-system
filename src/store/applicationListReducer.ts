@@ -1,12 +1,10 @@
 import { Dispatch } from 'redux';
 
-import { TaskData, taskDataAPI, UpdateTaskData } from 'api/taskDataAPI';
+import { TaskData, taskDataAPI } from 'api/taskDataAPI';
 
 const initialState = {
   items: [] as TaskData[],
   item: {} as TaskData,
-  updateItems: {} as UpdateTaskData,
-  isOpen: false,
 };
 
 export const applicationListReducer = (
@@ -29,7 +27,12 @@ export const applicationListReducer = (
     case 'SET_COMMENT': {
       return {
         ...state,
-        updateItems: { ...action.payload.task, comment: action.payload.value },
+        item: {
+          ...state.item,
+          lifetimeItems: state.item.lifetimeItems.filter(el =>
+            el.id === action.payload.id ? { ...el, comment: action.payload.value } : el,
+          ),
+        },
       };
     }
     case 'CREATE_TASK': {
@@ -55,10 +58,10 @@ export const getTask = (item: TaskData) =>
     payload: item,
   } as const);
 
-export const setComment = (task: UpdateTaskData, value: string) =>
+export const setComment = (id: number, value: string) =>
   ({
     type: 'SET_COMMENT',
-    payload: { task, value },
+    payload: { id, value },
   } as const);
 
 export const createTask = (data: TaskData) =>
@@ -91,7 +94,7 @@ export const getTaskById = (id: number) => (dispatch: Dispatch) => {
 export const updateTaskData =
   (item: TaskData, comment: string) => (dispatch: Dispatch) => {
     taskDataAPI.updateTask({ ...item, comment }).then(res => {
-      dispatch(setComment(res.data, res.data.comment));
+      dispatch(setComment(res.data.id, res.data.comment));
     });
   };
 

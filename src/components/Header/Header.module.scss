@@ -1,14 +1,17 @@
 .header {
-  height: 65px;
+  min-height: 65px;
+  //margin-left: 95px;
   background-color: rgb(209, 224, 237);
   width: 100%;
   display: flex;
   align-items: center;
+  position: fixed;
 
   & input {
     width: 680px;
     border-radius: 25px;
     margin-left: 18px;
+    //z-index: 2;
   }
 }
 

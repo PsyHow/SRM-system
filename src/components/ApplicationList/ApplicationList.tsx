@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './ApplicationList.module.scss';
 
 import { TaskData } from 'api/taskDataAPI';
+import { Button } from 'components/common/Button/Button';
+import { TaskForm } from 'components/TaskForm/TaskForm';
 import { UpdateTask } from 'components/UpdateTask/UpdateTask';
-import { fetchTaskOData, getTask, getTaskById } from 'store/applicationListReducer';
+import { fetchTaskOData, getTask } from 'store/applicationListReducer';
 import { AppRootState } from 'store/store';
 
 export const ApplicationList: FC = () => {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState({ create: false, update: false });
   const dispatch = useDispatch();
   const appList = useSelector<AppRootState, TaskData[]>(
     state => state.applicationListReducer.items,
@@ -20,15 +22,23 @@ export const ApplicationList: FC = () => {
     dispatch(fetchTaskOData());
   }, [dispatch]);
 
-  const onClickToggleHandle = (): void => {
-    setToggle(true);
+  const onClickToggleCreateHandle = (): void => {
+    setToggle(state => ({
+      ...state,
+      create: !state.create,
+    }));
+  };
+
+  const onClickToggleUpdateHandle = (): void => {
+    setToggle(state => ({
+      ...state,
+      update: !state.update,
+    }));
   };
 
   return (
     <div className={style.container}>
-      <button type="button" className={style.createTask} onClick={onClickToggleHandle}>
-        Создать Заявку
-      </button>
+      <Button title="Создать Заявку" onClickHandle={onClickToggleCreateHandle} />
       <table className={style.table}>
         <thead>
           <tr>
@@ -42,8 +52,7 @@ export const ApplicationList: FC = () => {
           {appList.map(task => {
             const getTaskByIdHandle = (): void => {
               dispatch(getTask(task));
-              // dispatch(getTaskById(task.id));
-              setToggle(true);
+              onClickToggleUpdateHandle();
             };
             return (
               <tr key={task.id} onClick={getTaskByIdHandle}>
@@ -60,10 +69,14 @@ export const ApplicationList: FC = () => {
           })}
         </tbody>
       </table>
-      {toggle && (
+      {toggle.create && (
         <div className={style.task}>
-          {/* <TaskForm setToggle={setToggle} /> */}
-          <UpdateTask setToggle={setToggle} />
+          <TaskForm setToggle={onClickToggleCreateHandle} />
+        </div>
+      )}
+      {toggle.update && (
+        <div className={style.task}>
+          <UpdateTask setToggle={onClickToggleUpdateHandle} />
         </div>
       )}
     </div>

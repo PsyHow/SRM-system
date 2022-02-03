@@ -4,6 +4,9 @@ import { useDispatch } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
+import { Button } from 'components/common/Button/Button';
+import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
+import { TextArea } from 'components/common/TextArea/TextArea';
 import { createTaskOData } from 'store/applicationListReducer';
 
 type PropsType = {
@@ -36,23 +39,12 @@ export const TaskForm: FC<PropsType> = ({ setToggle }) => {
 
   return (
     <div className={style.container}>
-      <div className={style.header}>
-        <span>Новая заявка</span>
-        <button
-          type="button"
-          className={style.headerButton}
-          onClick={() => setToggle(false)}
-        >
-          X
-        </button>
-      </div>
+      <HeaderTask id="Новая Заявка" onClickHandle={() => setToggle(false)} />
       <span>Название</span>
-      <textarea value={value.name} onChange={changeNameHandle} />
+      <TextArea value={value.name} onChangeHandle={changeNameHandle} />
       <span>Описание</span>
-      <textarea value={value.description} onChange={changeDescriptionHandle} />
-      <button type="button" className={style.buttonSubmit} onClick={onButtonClickHandle}>
-        Сохранить
-      </button>
+      <TextArea value={value.description} onChangeHandle={changeDescriptionHandle} />
+      <Button title="Сохранить" onClickHandle={onButtonClickHandle} />
     </div>
   );
 };

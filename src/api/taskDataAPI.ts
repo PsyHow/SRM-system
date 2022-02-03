@@ -50,7 +50,7 @@ export type TaskData = {
   executorName: string;
   executorGroupId: number;
   executorGroupName: string;
-  lifetimeItems: LifyTimeType[];
+  lifetimeItems: LifeTimeType[];
 };
 
 export type UpdateTaskData = {
@@ -75,7 +75,7 @@ type TagsType = {
   name: string;
 };
 
-type LifyTimeType = {
+type LifeTimeType = {
   id: number;
   userName: string;
   lifetimeType: number;

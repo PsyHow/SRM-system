@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './UpdateTask.module.scss';
 
 import { TaskData } from 'api/taskDataAPI';
+import { Button } from 'components/common/Button/Button';
+import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
 import { getTaskById, updateTaskData } from 'store/applicationListReducer';
 import { AppRootState } from 'store/store';
 
@@ -21,7 +23,7 @@ export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
 
   useEffect(() => {
     dispatch(getTaskById(item.id));
-  }, [dispatch, item.id]);
+  }, [dispatch]);
 
   const date = new Date(item.resolutionDatePlan).toDateString();
 
@@ -35,29 +37,14 @@ export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
 
   return (
     <div className={style.container}>
-      <div className={style.header}>
-        <span>№ {item.id}</span>
-        <span className={style.itemName}>{item.name}</span>
-        <button
-          type="button"
-          className={style.closeButton}
-          onClick={() => setToggle(false)}
-        >
-          X
-        </button>
-      </div>
+      <HeaderTask id={item.id} name={item.name} onClickHandle={() => setToggle(false)} />
       <div className={style.content}>
         <div className={style.leftContent}>
           <span>Описание</span>
           <p>{item.description}</p>
           <span>Добавление коментариев</span>
-          <textarea
-            value={value}
-            onChange={onChangeTextHandle}
-          />
-          <button type="button" onClick={onClickButtonHandle}>
-            Сохранить
-          </button>
+          <textarea value={value} onChange={onChangeTextHandle} />
+          <Button title="Сохранить" onClickHandle={onClickButtonHandle} />
           {item.lifetimeItems &&
             item.lifetimeItems.map(LfItem => (
               <div key={LfItem.id} className={style.containerComment}>
