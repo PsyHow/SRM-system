@@ -4,12 +4,13 @@
 .container {
   @include flexContainer(flex, column, '');
   width: 970px;
-  min-height: 100vh;
+  height: 100vh;
   background-color: $backgroundColor;
   overflow-y: scroll;
 
   .content {
     @include flexContainer(flex, '', space-between);
+    height: 100%;
 
     .leftContent {
       @include flexContainer(flex, column, '');
@@ -80,7 +81,8 @@
       align-items: flex-start;
       padding-left: 20px;
       width: 240px;
-      //border-left: 1px solid $borderColor;
+      height: 100%;
+      border-left: 1px solid $borderColor;
 
       .statusBox {
         @include flexContainer(flex, '', center);

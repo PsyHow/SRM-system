@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios';
+
 import { instance } from './apiConfig';
 
 const tenantguid = '7189c2ac-a800-40ae-b011-2ec6bfee6e1a';
@@ -9,14 +11,20 @@ export const taskDataAPI = {
   getTask(id: number) {
     return instance.get<TaskData>(`api/${tenantguid}/Tasks/${id}`);
   },
-  updateTask(data: UpdateTaskData) {
-    return instance.put<UpdateTaskData>(`/api/${tenantguid}/Tasks`, { ...data });
+  updateTask(data: UpdateTaskModel) {
+    return instance.put<UpdateTaskModel, AxiosResponse<TaskData>>(
+      `/api/${tenantguid}/Tasks`,
+      data,
+    );
   },
   createTaskData(name: string, description: string) {
     return instance.post<TaskData>(`/api/${tenantguid}/Tasks`, {
       name,
       description,
     });
+  },
+  getStatuses() {
+    return instance.get<StatusType[]>(`/api/${tenantguid}/Statuses`);
   },
 };
 
@@ -53,28 +61,6 @@ export type TaskData = {
   lifetimeItems: LifeTimeType[];
 };
 
-export type UpdateTaskData = {
-  id: number;
-  name: string;
-  description: string;
-  comment: string;
-  price: number;
-  taskTypeId: number;
-  statusId: number;
-  priorityId: number;
-  serviceId: number;
-  resolutionDatePlan: Date;
-  tags: TagsType[];
-  initiatorId: number;
-  executorId: number;
-  executorGroupId: number;
-};
-
-type TagsType = {
-  id: number;
-  name: string;
-};
-
 type LifeTimeType = {
   id: number;
   userName: string;
@@ -84,4 +70,32 @@ type LifeTimeType = {
   fieldName: string;
   oldFieldValue: string;
   newFieldValue: string;
-}
+};
+
+export type TagsType = {
+  id: number;
+  name: string;
+};
+
+export type UpdateTaskModel = {
+  id?: number;
+  name?: string;
+  description?: string;
+  comment?: string;
+  price?: number;
+  taskTypeId?: number;
+  statusId?: number;
+  priorityId?: number;
+  serviceId?: number;
+  resolutionDatePlan?: Date;
+  tags?: TagsType[];
+  initiatorId?: number;
+  executorId?: number;
+  executorGroupId?: number;
+};
+
+export type StatusType = {
+  rgb: string;
+  id: number;
+  name: string;
+};

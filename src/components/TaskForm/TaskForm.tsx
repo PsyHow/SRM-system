@@ -4,13 +4,14 @@ import { useDispatch } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
+import { TaskData } from 'api/taskDataAPI';
 import { Button } from 'components/common/Button/Button';
 import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
 import { TextArea } from 'components/common/TextArea/TextArea';
-import { createTaskOData } from 'store/applicationListReducer';
+import { createTaskOData, getTask } from 'store/applicationListReducer';
 
 type PropsType = {
-  setToggle: (value: boolean) => void;
+  setToggle: () => void;
 };
 
 export const TaskForm: FC<PropsType> = ({ setToggle }) => {
@@ -18,7 +19,8 @@ export const TaskForm: FC<PropsType> = ({ setToggle }) => {
   const dispatch = useDispatch();
 
   const onButtonClickHandle = (): void => {
-    dispatch(createTaskOData(value.name, value.description));
+    dispatch(createTaskOData(value.name, value.description, setToggle));
+    // setToggle();
   };
 
   const changeNameHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -39,7 +41,10 @@ export const TaskForm: FC<PropsType> = ({ setToggle }) => {
 
   return (
     <div className={style.container}>
-      <HeaderTask id="Новая Заявка" onClickHandle={() => setToggle(false)} />
+      <HeaderTask
+        id="Новая Заявка"
+        onClickHandle={() => dispatch(getTask({} as TaskData))}
+      />
       <span>Название</span>
       <TextArea value={value.name} onChangeHandle={changeNameHandle} />
       <span>Описание</span>

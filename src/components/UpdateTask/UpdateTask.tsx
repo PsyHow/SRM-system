@@ -7,37 +7,53 @@ import style from './UpdateTask.module.scss';
 import { TaskData } from 'api/taskDataAPI';
 import { Button } from 'components/common/Button/Button';
 import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
-import { getTaskById, updateTaskData } from 'store/applicationListReducer';
-import { AppRootState } from 'store/store';
+import { selectItem, selectStatuses } from 'selectors/selectors';
+import { getTask, updateStatusData, updateTaskData } from 'store/applicationListReducer';
 
 type PropsType = {
-  setToggle: (value: boolean) => void;
+  setToggle: () => void;
 };
 
 export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
   const dispatch = useDispatch();
-  const item = useSelector<AppRootState, TaskData>(
-    state => state.applicationListReducer.item,
-  );
+  const item = useSelector(selectItem);
+  const statuses = useSelector(selectStatuses);
+
+  console.log(item);
+
+  const date = new Date(item.resolutionDatePlan).toDateString();
+  const statusName = statuses.map(m => m.name);
+
+  const [select, setSelect] = useState<string>(statusName[0]);
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    dispatch(getTaskById(item.id));
+    dispatch(getTask(item));
   }, [dispatch]);
 
-  const date = new Date(item.resolutionDatePlan).toDateString();
+  const onChangeSelectHandle = (event: ChangeEvent<HTMLSelectElement>): void => {
+    setSelect(event.currentTarget.value);
+    const { id } = statuses.filter(
+      status => status.name === event.currentTarget.value,
+    )[0];
+    dispatch(updateStatusData({ ...item, statusId: id }));
+  };
 
   const onChangeTextHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setValue(event.currentTarget.value);
   };
 
   const onClickButtonHandle = (): void => {
-    dispatch(updateTaskData(item, value));
+    dispatch(updateTaskData({ ...item, comment: value }));
   };
 
   return (
     <div className={style.container}>
-      <HeaderTask id={item.id} name={item.name} onClickHandle={() => setToggle(false)} />
+      <HeaderTask
+        id={item.id}
+        name={item.name}
+        onClickHandle={() => dispatch(getTask({} as TaskData))}
+      />
       <div className={style.content}>
         <div className={style.leftContent}>
           <span>Описание</span>
@@ -48,24 +64,28 @@ export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
           {item.lifetimeItems &&
             item.lifetimeItems.map(LfItem => (
               <div key={LfItem.id} className={style.containerComment}>
-                <div className={style.commentBox}>
-                  <div className={style.avatar} />
-                  <div>
-                    <div className={style.name}>{item.initiatorName}</div>
-                    <span className={style.date}>
-                      {new Date(LfItem.createdAt).toLocaleString('ru', {
-                        day: 'numeric',
-                        month: 'long',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                      })}{' '}
-                      прокомментировал
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <p className={style.comment}>{LfItem.comment}</p>
-                </div>
+                {LfItem.comment && (
+                  <>
+                    <div className={style.commentBox}>
+                      <div className={style.avatar} />
+                      <div>
+                        <div className={style.name}>{item.initiatorName}</div>
+                        <span className={style.date}>
+                          {new Date(LfItem.createdAt).toLocaleString('ru', {
+                            day: 'numeric',
+                            month: 'long',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                          })}{' '}
+                          прокомментировал
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <p className={style.comment}>{LfItem.comment}</p>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
         </div>
@@ -73,6 +93,11 @@ export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
           <div className={style.statusBox}>
             <div style={{ backgroundColor: item.statusRgb }} className={style.circle} />
             <span>{item.statusName}</span>
+            <select value={select} onChange={onChangeSelectHandle}>
+              {statuses.map(status => (
+                <option key={status.id}>{status.name}</option>
+              ))}
+            </select>
           </div>
           <span>Заявитель</span>
           <span>{item.initiatorName}</span>
