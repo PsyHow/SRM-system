@@ -1,28 +1,3 @@
-import { instance } from './apiConfig';
-
-const tenantguid = '77753b11-7a94-47a6-88f7-4c232f73e789';
-
-export const taskDataAPI = {
-  fetchTasks() {
-    return instance.get<TaskResponse>(`/odata/tasks`, { params: { tenantguid } });
-  },
-  fetchTask(id: number) {
-    return instance.get(`api/${tenantguid}/Tasks/${id}`);
-  },
-  updateTask(data: UpdateTaskModel) {
-    return instance.put(`/api/${tenantguid}/Tasks`, data);
-  },
-  createTaskData(data: CreateModel) {
-    return instance.post(`/api/${tenantguid}/Tasks`, data);
-  },
-  getStatuses() {
-    return instance.get<StatusType[]>(`/api/${tenantguid}/Statuses`);
-  },
-  fetchTags() {
-    return instance.get(`/api/${tenantguid}/Tags`);
-  },
-};
-
 export type TaskResponse = {
   value: TaskData[];
   nextPageLink: string;
@@ -72,6 +47,12 @@ export type TagsType = {
   name: string;
 };
 
+export type StatusType = {
+  rgb: string;
+  id: number;
+  name: string;
+};
+
 export type UpdateTaskModel = {
   id?: number;
   name?: string;
@@ -89,12 +70,6 @@ export type UpdateTaskModel = {
   executorGroupId?: number;
 };
 
-export type StatusType = {
-  rgb: string;
-  id: number;
-  name: string;
-};
-
 export type CreateModel = {
   name: string;
   description: string;
@@ -109,4 +84,9 @@ export type CreateModel = {
   initiatorId?: number;
   executorId?: number;
   executorGroupId?: number;
+};
+
+export type UsersType = {
+  id: number;
+  name: string;
 };

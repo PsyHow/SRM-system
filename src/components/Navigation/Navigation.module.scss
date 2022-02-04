@@ -3,8 +3,39 @@
   min-height: 100vh;
   background-color: #002137;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .logo {
+    margin-bottom: 30px;
+  }
+
+  & a {
+    text-decoration: none;
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .activeLink {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    filter: invert(1);
+  }
 
   & img {
-    margin-top: 16px;
+    margin-top: 20px;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
   }
 }

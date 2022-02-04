@@ -29,50 +29,13 @@
 
       & textArea {
         margin-top: 14px;
+        margin-left: 0;
         width: 400px;
-        min-height: 120px;
-        resize: none;
       }
 
       & button {
         margin-left: 15px;
         margin-bottom: 40px;
-      }
-
-      .containerComment {
-        @include flexContainer(flex, column, '');
-
-        .commentBox {
-          display: flex;
-
-          .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            border: 1px solid $borderColor;
-            background-color: #ffffff;
-          }
-
-          .name {
-            align-self: center;
-            margin-left: 10px;
-            font-weight: 600;
-          }
-
-          & span {
-            margin-left: 10px;
-          }
-        }
-      }
-
-      .comment {
-        display: inline-block;
-        max-width: 500px;
-        margin-left: 50px;
-        border: 1px solid $borderColor;
-        border-radius: 5px;
-        background-color: #e3e9f4;
-        padding: 5px;
       }
     }
 
@@ -96,24 +59,10 @@
           border-radius: 5px;
         }
 
-      }
+        .status {
+          margin-top: 35px;
+        }
 
-      & span:nth-child(even) {
-        margin-top: 35px;
-        color: $titleColor;
-      }
-
-      & span:nth-child(odd) {
-        color: #030303;
-      }
-
-      .tags {
-        border: 1px solid $borderColor;
-        border-radius: 20px;
-        padding: 0 15px 0 15px;
-        font-size: 12px;
-        color: $titleColor;
-        margin-top: 10px;
       }
     }
   }

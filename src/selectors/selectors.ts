@@ -1,13 +1,12 @@
-import { StatusType, TaskData } from 'api/taskDataAPI';
+import { StatusType, TaskData, UsersType } from 'api/tasksData/types';
 import { AppRootState } from 'store/store';
 
-export const selectTask = (state: AppRootState): TaskData =>
-  state.applicationListReducer.task;
+export const selectTask = (state: AppRootState): TaskData => state.tasksReducer.task;
 export const selectStatuses = (state: AppRootState): StatusType[] =>
-  state.applicationListReducer.statuses;
-export const selectTasks = (state: AppRootState): TaskData[] =>
-  state.applicationListReducer.tasks;
+  state.tasksReducer.statuses;
+export const selectTasks = (state: AppRootState): TaskData[] => state.tasksReducer.tasks;
 export const selectIsUpdate = (state: AppRootState): boolean =>
-  state.applicationListReducer.isUpdate;
+  state.tasksReducer.isUpdate;
 export const selectNewTaskId = (state: AppRootState): number =>
-  state.applicationListReducer.newTaskId;
+  state.tasksReducer.newTaskId;
+export const selectUsers = (state: AppRootState): UsersType[] => state.tasksReducer.users;

@@ -2,17 +2,16 @@ import { FC, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import style from './ApplicationList.module.scss';
-
 import { Button } from 'components/common/Button/Button';
 import { TaskForm } from 'components/TaskForm/TaskForm';
+import style from 'components/TasksList/TasksList.module.scss';
 import { UpdateTask } from 'components/UpdateTask/UpdateTask';
 import { selectIsUpdate, selectTasks } from 'selectors/selectors';
-import { getTask } from 'store/applicationListReducer';
+import { getTask } from 'store/tasksReducer/tasksActions';
 
 export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
 
-export const ApplicationList: FC = () => {
+export const TasksList: FC = () => {
   const [status, setStatus] = useState<StatusActive>('DEFAULT');
   const dispatch = useDispatch();
   const tasks = useSelector(selectTasks);

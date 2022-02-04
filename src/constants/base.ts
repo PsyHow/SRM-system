@@ -1,4 +1,4 @@
-import { LifeTimeType, TaskData } from 'api/taskDataAPI';
+import { LifeTimeType, TaskData } from 'api/tasksData/types';
 
 export const resolutionDate = (task: TaskData) =>
   new Date(task.resolutionDatePlan).toLocaleString('ru', {
