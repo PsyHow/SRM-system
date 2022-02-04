@@ -4,47 +4,35 @@ import { useDispatch } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
-import { TaskData } from 'api/taskDataAPI';
+import { StatusActive } from 'components/ApplicationList/ApplicationList';
 import { Button } from 'components/common/Button/Button';
 import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
 import { TextArea } from 'components/common/TextArea/TextArea';
-import { createTaskOData, getTask } from 'store/applicationListReducer';
+import { useForm } from 'hooks/useForm/useForm';
+import { createTaskOData, setUpdate } from 'store/applicationListReducer';
 
 type PropsType = {
-  setToggle: () => void;
+  setStatus: (value: StatusActive) => void;
 };
 
-export const TaskForm: FC<PropsType> = ({ setToggle }) => {
-  const [value, setValue] = useState({ name: '', description: '' });
+export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
 
+  const { value, changeNameHandle, changeDescriptionHandle } = useForm();
+
   const onButtonClickHandle = (): void => {
-    dispatch(createTaskOData(value.name, value.description, setToggle));
-    // setToggle();
+    dispatch(createTaskOData({ name: value.name, description: value.description }));
+    setStatus('DEFAULT');
   };
 
-  const changeNameHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    const { value } = event.currentTarget;
-    setValue(state => ({
-      ...state,
-      name: value,
-    }));
-  };
-
-  const changeDescriptionHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    const { value } = event.currentTarget;
-    setValue(state => ({
-      ...state,
-      description: value,
-    }));
+  const closeWindowHandle = (): void => {
+    setStatus('DEFAULT');
+    dispatch(setUpdate(false));
   };
 
   return (
     <div className={style.container}>
-      <HeaderTask
-        id="Новая Заявка"
-        onClickHandle={() => dispatch(getTask({} as TaskData))}
-      />
+      <HeaderTask id="Новая Заявка" onClickHandle={closeWindowHandle} />
       <span>Название</span>
       <TextArea value={value.name} onChangeHandle={changeNameHandle} />
       <span>Описание</span>

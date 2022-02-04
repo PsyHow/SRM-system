@@ -1,11 +1,21 @@
 import { Dispatch } from 'redux';
 
-import { StatusType, TaskData, taskDataAPI, UpdateTaskModel } from 'api/taskDataAPI';
+import {
+  CreateModel,
+  StatusType,
+  TagsType,
+  TaskData,
+  taskDataAPI,
+  UpdateTaskModel,
+} from 'api/taskDataAPI';
 
 const initialState = {
-  items: [] as TaskData[],
-  item: {} as TaskData,
+  tasks: [] as TaskData[],
+  task: {} as TaskData,
   statuses: [] as StatusType[],
+  isUpdate: false,
+  newTaskId: 0,
+  tags: [] as TagsType[],
 };
 
 export const applicationListReducer = (
@@ -13,10 +23,22 @@ export const applicationListReducer = (
   action: ActionReducer,
 ): InitialState => {
   switch (action.type) {
-    case 'SET_STATUS': {
+    case 'GET_TAGS': {
       return {
         ...state,
-        statuses: state.statuses.filter(status => status.id === action.payload),
+        tags: action.payload,
+      };
+    }
+    case 'GET_TASKS': {
+      return {
+        ...state,
+        tasks: action.payload,
+      };
+    }
+    case 'GET_TASK': {
+      return {
+        ...state,
+        task: action.payload,
       };
     }
     case 'GET_STATUSES': {
@@ -25,85 +47,72 @@ export const applicationListReducer = (
         statuses: action.payload,
       };
     }
-    case 'GET_APP_LIST': {
+    case 'GET_NEW_TASK_ID': {
       return {
         ...state,
-        items: action.payload,
+        newTaskId: action.payload,
       };
     }
-    case 'GET_TASK': {
+    case 'SET_UPDATE': {
       return {
         ...state,
-        item: action.payload,
+        isUpdate: action.payload,
+      };
+    }
+    case 'SET_STATUS': {
+      return {
+        ...state,
+        tasks: state.tasks.filter(f =>
+          f.id === action.payload.taskId
+            ? { ...f, statusId: action.payload.statusId }
+            : f,
+        ),
       };
     }
     case 'SET_COMMENT': {
       return {
         ...state,
-        item: {
-          ...state.item,
-          lifetimeItems: state.item.lifetimeItems.filter(el =>
-            el.id === action.payload.id ? { ...el, comment: action.payload.value } : el,
-          ),
-        },
+        tasks: state.tasks.filter(task =>
+          task.id === action.payload.id
+            ? { ...task, comment: action.payload.value }
+            : task,
+        ),
       };
     }
     case 'CREATE_TASK': {
       return {
         ...state,
-        items: [...state.items, action.payload.data],
-        item: action.payload.data,
+        tasks: [
+          ...state.tasks,
+          {
+            ...state.task,
+            name: action.payload.name,
+            description: action.payload.description,
+          },
+        ],
       };
     }
-    case 'UPDATE_ITEM': {
-      return {
-        ...state,
-        item: action.payload,
-      };
-    }
-    // case 'SET_UPDATE_TASK': {
-    //   return {
-    //     ...state,
-    //     activeItem: null,
-    //   };
-    // }
     default:
       return state;
   }
 };
-export const updateItem = (item: TaskData) =>
+
+export const getTasks = (tasks: TaskData[]) =>
   ({
-    type: 'UPDATE_ITEM',
-    payload: item,
-  } as const);
-export const setIsCreate = (isCreate: boolean) =>
-  ({
-    type: 'SET_IS_CREATE',
-    payload: isCreate,
+    type: 'GET_TASKS',
+    payload: tasks,
   } as const);
 
-export const setStatus = (id: number) =>
-  ({
-    type: 'SET_STATUS',
-    payload: id,
-  } as const);
-
-export const setUpdateTask = (activeItem: null | TaskData) =>
-  ({
-    type: 'SET_UPDATE_TASK',
-    payload: activeItem,
-  } as const);
-
-export const getAppList = (appLists: TaskData[]) =>
-  ({
-    type: 'GET_APP_LIST',
-    payload: appLists,
-  } as const);
-
-export const getTask = (item: TaskData) =>
+export const getTask = (task: TaskData) =>
   ({
     type: 'GET_TASK',
-    payload: item,
+    payload: task,
+  } as const);
+
+export const getTags = (tags: TagsType[]) =>
+  ({
+    type: 'GET_TAGS',
+    payload: tags,
   } as const);
 
 export const getStatuses = (statuses: StatusType[]) =>
@@ -112,51 +121,43 @@ export const getStatuses = (statuses: StatusType[]) =>
     payload: statuses,
   } as const);
 
+export const getNewTaskId = (id: number) =>
+  ({
+    type: 'GET_NEW_TASK_ID',
+    payload: id,
+  } as const);
+
+export const setUpdate = (isUpdate: boolean) =>
+  ({
+    type: 'SET_UPDATE',
+    payload: isUpdate,
+  } as const);
+
+export const setStatus = (taskId: number, statusId: number) =>
+  ({
+    type: 'SET_STATUS',
+    payload: { taskId, statusId },
+  } as const);
+
 export const setComment = (id: number, value: string) =>
   ({
     type: 'SET_COMMENT',
     payload: { id, value },
   } as const);
 
-export const createTask = (data: TaskData) =>
+export const createTask = (name: string, description: string) =>
   ({
     type: 'CREATE_TASK',
     payload: {
-      data,
+      name,
+      description,
     },
   } as const);
 
-export const createTaskOData =
-  (name: string, description: string, cb: () => void) => (dispatch: Dispatch) => {
-    taskDataAPI.createTaskData(name, description).then(res => {
-      dispatch(createTask(res.data));
-      if (cb) {
-        cb();
-      }
-    });
-  };
-
-export const fetchTaskOData = () => (dispatch: Dispatch) => {
-  taskDataAPI.getTaskOData().then(res => {
-    dispatch(getAppList(res.data.value));
-  });
-};
-
-// export const getTaskById = (id: number) => (dispatch: Dispatch) => {
-//   taskDataAPI.getTask(id).then(res => {
-//     dispatch(getTask(res.data));
-//   });
-// };
-
-export const updateTaskData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
-  taskDataAPI.updateTask(data).then(res => {
-    dispatch(setComment(res.data.id, res.data.lifetimeItems[res.data.id].comment));
-  });
-};
-
-export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
-  taskDataAPI.updateTask(data).then(res => {
-    dispatch(setStatus(res.data.statusId));
+// thunks
+export const fetchTasks = () => (dispatch: Dispatch) => {
+  taskDataAPI.fetchTasks().then(res => {
+    dispatch(getTasks(res.data.value));
   });
 };
 
@@ -166,14 +167,46 @@ export const fetchStatuses = () => (dispatch: Dispatch) => {
   });
 };
 
+export const fetchTags = () => (dispatch: Dispatch) => {
+  taskDataAPI.fetchTags().then(res => dispatch(getTags(res.data)));
+};
+
+export const getTaskById = (id: number) => (dispatch: Dispatch) => {
+  taskDataAPI.fetchTask(id).then(res => {
+    dispatch(getTask(res.data));
+  });
+};
+
+export const createTaskOData = (data: CreateModel) => (dispatch: Dispatch) => {
+  taskDataAPI.createTaskData(data).then(res => {
+    dispatch(createTask(res.data.name, res.data.description));
+    dispatch(getNewTaskId(res.data));
+    dispatch(setUpdate(true));
+  });
+};
+
+export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
+  taskDataAPI.updateTask(data).then(res => {
+    dispatch(setStatus(res.data.id, res.data.statusId));
+    dispatch(setUpdate(true));
+  });
+};
+
+export const updateTaskData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
+  taskDataAPI.updateTask(data).then(res => {
+    dispatch(setComment(res.data.id, res.data.comment));
+  });
+};
+
 type InitialState = typeof initialState;
 
 type ActionReducer =
-  | ReturnType<typeof getAppList>
+  | ReturnType<typeof getTasks>
   | ReturnType<typeof getTask>
   | ReturnType<typeof setComment>
   | ReturnType<typeof createTask>
-  | ReturnType<typeof setUpdateTask>
   | ReturnType<typeof getStatuses>
   | ReturnType<typeof setStatus>
-  | ReturnType<typeof updateItem>;
+  | ReturnType<typeof setUpdate>
+  | ReturnType<typeof getNewTaskId>
+  | ReturnType<typeof getTags>;

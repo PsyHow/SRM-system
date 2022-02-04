@@ -1,0 +1,10 @@
+@import "src/assets/sass/variables";
+
+.select {
+  border: 2px solid $borderColor;
+  border-radius: 20px;
+  margin-top: 35px;
+  margin-left: 20px;
+  width: 20px;
+  height: 20px;
+}

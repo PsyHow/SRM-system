@@ -4,39 +4,50 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import style from './UpdateTask.module.scss';
 
-import { TaskData } from 'api/taskDataAPI';
+import { StatusActive } from 'components/ApplicationList/ApplicationList';
 import { Button } from 'components/common/Button/Button';
 import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
-import { selectItem, selectStatuses } from 'selectors/selectors';
-import { getTask, updateStatusData, updateTaskData } from 'store/applicationListReducer';
+import { Select } from 'components/common/Select/Select';
+import { commentDate, resolutionDate } from 'constants/base';
+import {
+  selectNewTaskId,
+  selectStatuses,
+  selectTask,
+  selectTasks,
+} from 'selectors/selectors';
+import {
+  getTaskById,
+  setUpdate,
+  updateStatusData,
+  updateTaskData,
+} from 'store/applicationListReducer';
 
 type PropsType = {
-  setToggle: () => void;
+  setStatus: (value: StatusActive) => void;
 };
 
-export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
+export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
-  const item = useSelector(selectItem);
+  const task = useSelector(selectTask);
   const statuses = useSelector(selectStatuses);
+  const tasks = useSelector(selectTasks);
+  const newTaskId = useSelector(selectNewTaskId);
 
-  console.log(item);
-
-  const date = new Date(item.resolutionDatePlan).toDateString();
   const statusName = statuses.map(m => m.name);
 
   const [select, setSelect] = useState<string>(statusName[0]);
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    dispatch(getTask(item));
-  }, [dispatch]);
+    if (newTaskId > 0) {
+      dispatch(getTaskById(newTaskId));
+    } else dispatch(getTaskById(task.id));
+  }, [tasks, newTaskId]);
 
   const onChangeSelectHandle = (event: ChangeEvent<HTMLSelectElement>): void => {
     setSelect(event.currentTarget.value);
-    const { id } = statuses.filter(
-      status => status.name === event.currentTarget.value,
-    )[0];
-    dispatch(updateStatusData({ ...item, statusId: id }));
+    const { id } = statuses.filter(st => st.name === event.currentTarget.value)[0];
+    dispatch(updateStatusData({ ...task, statusId: id }));
   };
 
   const onChangeTextHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -44,40 +55,35 @@ export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
   };
 
   const onClickButtonHandle = (): void => {
-    dispatch(updateTaskData({ ...item, comment: value }));
+    dispatch(updateTaskData({ ...task, comment: value }));
+  };
+
+  const closeWindowHandle = (): void => {
+    setStatus('DEFAULT');
+    dispatch(setUpdate(false));
   };
 
   return (
     <div className={style.container}>
-      <HeaderTask
-        id={item.id}
-        name={item.name}
-        onClickHandle={() => dispatch(getTask({} as TaskData))}
-      />
+      <HeaderTask id={task.id} name={task.name} onClickHandle={closeWindowHandle} />
       <div className={style.content}>
         <div className={style.leftContent}>
           <span>Описание</span>
-          <p>{item.description}</p>
+          <p>{task.description}</p>
           <span>Добавление коментариев</span>
           <textarea value={value} onChange={onChangeTextHandle} />
           <Button title="Сохранить" onClickHandle={onClickButtonHandle} />
-          {item.lifetimeItems &&
-            item.lifetimeItems.map(LfItem => (
+          {task.lifetimeItems &&
+            task.lifetimeItems.map(LfItem => (
               <div key={LfItem.id} className={style.containerComment}>
                 {LfItem.comment && (
                   <>
                     <div className={style.commentBox}>
                       <div className={style.avatar} />
                       <div>
-                        <div className={style.name}>{item.initiatorName}</div>
+                        <div className={style.name}>{task.initiatorName}</div>
                         <span className={style.date}>
-                          {new Date(LfItem.createdAt).toLocaleString('ru', {
-                            day: 'numeric',
-                            month: 'long',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                          })}{' '}
-                          прокомментировал
+                          {commentDate(LfItem)} прокомментировал
                         </span>
                       </div>
                     </div>
@@ -91,28 +97,29 @@ export const UpdateTask: FC<PropsType> = ({ setToggle }) => {
         </div>
         <div className={style.rightContent}>
           <div className={style.statusBox}>
-            <div style={{ backgroundColor: item.statusRgb }} className={style.circle} />
-            <span>{item.statusName}</span>
-            <select value={select} onChange={onChangeSelectHandle}>
-              {statuses.map(status => (
-                <option key={status.id}>{status.name}</option>
-              ))}
-            </select>
+            <div style={{ backgroundColor: task.statusRgb }} className={style.circle} />
+            <span>{task.statusName}</span>
+            <Select
+              value={select}
+              items={statuses}
+              onChangeHandle={onChangeSelectHandle}
+            />
           </div>
           <span>Заявитель</span>
-          <span>{item.initiatorName}</span>
+          <span>{task.initiatorName}</span>
           <span>Исполнитель</span>
-          <span>{item.executorName}</span>
+          <span>{task.executorName}</span>
           <span>Приоритет</span>
-          <span>{item.priorityName}</span>
+          <span>{task.priorityName}</span>
           <span>Срок</span>
-          <span>{date}</span>
+          <span>{resolutionDate(task)}</span>
           <span>Теги</span>
-          {item.tags.map(tag => (
-            <div className={style.tags} key={tag.id}>
-              {tag.name}
-            </div>
-          ))}
+          {task.tags &&
+            task.tags.map(tag => (
+              <div className={style.tags} key={tag.id}>
+                {tag.name}
+              </div>
+            ))}
         </div>
       </div>
     </div>

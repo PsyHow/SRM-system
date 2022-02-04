@@ -1,30 +1,25 @@
-import { AxiosResponse } from 'axios';
-
 import { instance } from './apiConfig';
 
-const tenantguid = '7189c2ac-a800-40ae-b011-2ec6bfee6e1a';
+const tenantguid = '77753b11-7a94-47a6-88f7-4c232f73e789';
 
 export const taskDataAPI = {
-  getTaskOData() {
+  fetchTasks() {
     return instance.get<TaskResponse>(`/odata/tasks`, { params: { tenantguid } });
   },
-  getTask(id: number) {
-    return instance.get<TaskData>(`api/${tenantguid}/Tasks/${id}`);
+  fetchTask(id: number) {
+    return instance.get(`api/${tenantguid}/Tasks/${id}`);
   },
   updateTask(data: UpdateTaskModel) {
-    return instance.put<UpdateTaskModel, AxiosResponse<TaskData>>(
-      `/api/${tenantguid}/Tasks`,
-      data,
-    );
+    return instance.put(`/api/${tenantguid}/Tasks`, data);
   },
-  createTaskData(name: string, description: string) {
-    return instance.post<TaskData>(`/api/${tenantguid}/Tasks`, {
-      name,
-      description,
-    });
+  createTaskData(data: CreateModel) {
+    return instance.post(`/api/${tenantguid}/Tasks`, data);
   },
   getStatuses() {
     return instance.get<StatusType[]>(`/api/${tenantguid}/Statuses`);
+  },
+  fetchTags() {
+    return instance.get(`/api/${tenantguid}/Tags`);
   },
 };
 
@@ -61,7 +56,7 @@ export type TaskData = {
   lifetimeItems: LifeTimeType[];
 };
 
-type LifeTimeType = {
+export type LifeTimeType = {
   id: number;
   userName: string;
   lifetimeType: number;
@@ -98,4 +93,20 @@ export type StatusType = {
   rgb: string;
   id: number;
   name: string;
+};
+
+export type CreateModel = {
+  name: string;
+  description: string;
+  comment?: string;
+  price?: number;
+  taskTypeId?: number;
+  statusId?: number;
+  priorityId?: number;
+  serviceId?: number;
+  resolutionDatePlan?: Date;
+  tags?: TagsType[];
+  initiatorId?: number;
+  executorId?: number;
+  executorGroupId?: number;
 };
