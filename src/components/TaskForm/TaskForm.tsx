@@ -6,7 +6,7 @@ import style from './TaskForm.module.scss';
 
 import { Button, HeaderTask, StatusActive, TextArea } from 'components';
 import { createTaskDate } from 'consts';
-import { selectNewTaskId } from 'selectors';
+import { selectNewTaskId, selectTask } from 'selectors';
 import { createTaskOData, getTaskById, setUpdate } from 'store';
 
 type PropsType = {
@@ -17,12 +17,13 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState({ name: '', description: '' });
   const newTaskId = useSelector(selectNewTaskId);
+  const task = useSelector(selectTask);
 
   useEffect(() => {
-    if (newTaskId !== 0) {
+    if (newTaskId !== task.id) {
       dispatch(getTaskById(newTaskId));
     }
-  }, [newTaskId]);
+  }, [newTaskId, task.id]);
 
   const changeNameHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.currentTarget;
