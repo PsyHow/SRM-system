@@ -13,19 +13,9 @@ import {
   UpdateComment,
   UpdateConfig,
 } from 'components';
-import {
-  selectIsUpdate,
-  selectNewTaskId,
-  selectStatuses,
-  selectTask,
-  selectTasks,
-  selectUsers,
-} from 'selectors';
+import { selectStatuses, selectTask, selectTasks, selectUsers } from 'selectors';
 import {
   fetchTags,
-  fetchUsers,
-  getNewTaskId,
-  getTask,
   getTaskById,
   setUpdate,
   updateExecutor,
@@ -41,31 +31,16 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const task = useSelector(selectTask);
   const statuses = useSelector(selectStatuses);
-  const newTaskId = useSelector(selectNewTaskId);
   const users = useSelector(selectUsers);
-  const isUpdate = useSelector(selectIsUpdate);
   const tasks = useSelector(selectTasks);
 
-  const statusNames = statuses.map(status => status.name);
-  const userNames = users.map(user => user.name);
-
-  const [select, setSelect] = useState<string>(statusNames[0]);
-  const [user, setUser] = useState<string>(userNames[0]);
+  const [select, setSelect] = useState<string>(task.statusName);
+  const [user, setUser] = useState<string>(task.executorName);
   const [value, setValue] = useState<string>('');
 
-  console.log(newTaskId, 'newTaskId');
-  console.log(task.id, 'task id');
-
   useEffect(() => {
-    if (isUpdate && newTaskId !== task.id) {
-      dispatch(getTaskById(newTaskId));
-    }
-  }, [newTaskId, tasks]);
-
-  // useEffect(() => {
-  //   // if (isUpdate && task.id !== newTaskId)
-  //   dispatch(getTaskById(task.id));
-  // }, [tasks, task.id]);
+    if (task.id) dispatch(getTaskById(task.id));
+  }, [tasks]);
 
   useEffect(() => {
     dispatch(fetchTags());

@@ -6,15 +6,15 @@ import { Route, Routes } from 'react-router-dom';
 import style from './App.module.scss';
 
 import {
-  Header,
-  Navigation,
   AnalyticsPage,
   ClientsPage,
   ErrorPage,
+  Header,
   KnowledgePage,
+  Navigation,
   SettingsPage,
-  UsersPage,
   TasksList,
+  UsersPage,
 } from 'components';
 import { Path } from 'enums';
 import { selectIsUpdate } from 'selectors';

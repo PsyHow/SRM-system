@@ -1,12 +1,13 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
 import { Button, HeaderTask, StatusActive, TextArea } from 'components';
 import { createTaskDate } from 'consts';
-import { createTaskOData, setUpdate } from 'store';
+import { selectNewTaskId } from 'selectors';
+import { createTaskOData, getTaskById, setUpdate } from 'store';
 
 type PropsType = {
   setStatus: (value: StatusActive) => void;
@@ -15,6 +16,13 @@ type PropsType = {
 export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState({ name: '', description: '' });
+  const newTaskId = useSelector(selectNewTaskId);
+
+  useEffect(() => {
+    if (newTaskId !== 0) {
+      dispatch(getTaskById(newTaskId));
+    }
+  }, [newTaskId]);
 
   const changeNameHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.currentTarget;

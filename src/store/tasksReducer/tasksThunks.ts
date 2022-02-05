@@ -46,7 +46,7 @@ export const createTaskOData = (data: CreateModel) => (dispatch: Dispatch) => {
   tasksDataAPI.createTaskData(data).then(res => {
     dispatch(createTask(res.data.name, res.data.description));
     dispatch(getNewTaskId(res.data));
-    dispatch(setUpdate(true));
+    // dispatch(setUpdate(true));
   });
 };
 
