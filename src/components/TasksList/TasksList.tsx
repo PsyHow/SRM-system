@@ -2,12 +2,10 @@ import { FC, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button } from 'components/common/Button/Button';
-import { TaskForm } from 'components/TaskForm/TaskForm';
+import { Button, TaskForm, UpdateTask } from 'components';
 import style from 'components/TasksList/TasksList.module.scss';
-import { UpdateTask } from 'components/UpdateTask/UpdateTask';
-import { selectIsUpdate, selectTasks } from 'selectors/selectors';
-import { getTask } from 'store/tasksReducer/tasksActions';
+import { selectIsUpdate, selectTasks } from 'selectors';
+import { getTask } from 'store';
 
 export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
 
@@ -35,13 +33,14 @@ export const TasksList: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map(task => {
+          {tasks.map((task, index) => {
             const getTaskByIdHandle = (): void => {
               dispatch(getTask(task));
               setStatus('UPDATE');
             };
             return (
-              <tr key={task.id} onClick={getTaskByIdHandle}>
+              // eslint-disable-next-line react/no-array-index-key
+              <tr key={index} onClick={getTaskByIdHandle}>
                 <td>{task.id}</td>
                 <td>{task.name}</td>
                 <td>

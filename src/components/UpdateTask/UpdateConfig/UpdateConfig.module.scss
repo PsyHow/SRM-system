@@ -4,6 +4,11 @@
 .container {
   @include  flexContainer(flex, column, '');
 
+  & div {
+    display: flex;
+    flex-direction: column;
+  }
+
   & span:nth-child(odd) {
     margin-top: 35px;
     color: $titleColor;
@@ -12,6 +17,19 @@
   & span:nth-child(even) {
     color: #030303;
   }
+  .executorBox {
+    display: flex;
+    flex-direction: column;
+    .select {
+      display: flex;
+      flex-direction: row !important;
+
+      & select {
+        margin-top: 0;
+      }
+    }
+  }
+
 
   .tags {
     border: 1px solid $borderColor;

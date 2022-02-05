@@ -2,18 +2,18 @@ import { ChangeEvent, FC } from 'react';
 
 import style from './Select.module.scss';
 
-import { StatusType, UsersType } from 'api/tasksData/types';
+import { StatusType, UsersType } from 'api';
 
 type SelectProps = {
   value: string;
-  items: StatusType[] | UsersType[];
+  options: StatusType[] | UsersType[];
   onChangeHandle: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export const Select: FC<SelectProps> = ({ items, onChangeHandle,value }) => (
-  <select className={style.select}  onChange={(e)=>{console.log('change')}}>
-    {items.map(item => (
-      <option value={value} key={item.id}>{item.name}</option>
+export const Select: FC<SelectProps> = ({ options, onChangeHandle, value }) => (
+  <select value={value} className={style.select} onChange={onChangeHandle}>
+    {options.map(item => (
+      <option key={item.id}>{item.name}</option>
     ))}
   </select>
 );

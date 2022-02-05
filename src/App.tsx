@@ -5,18 +5,20 @@ import { Route, Routes } from 'react-router-dom';
 
 import style from './App.module.scss';
 
-import { Header } from 'components/Header/Header';
-import { Navigation } from 'components/Navigation/Navigation';
-import { AnalyticsPage } from 'components/pages/AnalyticsPage';
-import { ClientsPage } from 'components/pages/ClientsPage';
-import { ErrorPage } from 'components/pages/ErrorPage';
-import { KnowledgePage } from 'components/pages/KnowledgePage';
-import { SettingsPage } from 'components/pages/SettingsPage';
-import { UsersPage } from 'components/pages/UsersPage';
-import { TasksList } from 'components/TasksList/TasksList';
-import { Path } from 'enums/path';
-import { selectIsUpdate } from 'selectors/selectors';
-import { fetchStatuses, fetchTasks } from 'store/tasksReducer/tasksThunks';
+import {
+  Header,
+  Navigation,
+  AnalyticsPage,
+  ClientsPage,
+  ErrorPage,
+  KnowledgePage,
+  SettingsPage,
+  UsersPage,
+  TasksList,
+} from 'components';
+import { Path } from 'enums';
+import { selectIsUpdate } from 'selectors';
+import { fetchStatuses, fetchTasks, fetchUsers } from 'store';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,14 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(fetchStatuses());
+  }, [isUpdate]);
+
+  useEffect(() => {
     dispatch(fetchTasks());
+  }, [isUpdate]);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
   }, [isUpdate]);
 
   return (

@@ -1,3 +1,5 @@
+import { StatusType, TagsType, TaskData, UsersType } from 'api';
+import { ACTION } from 'enums';
 import {
   createTask,
   getNewTaskId,
@@ -10,10 +12,7 @@ import {
   setExecutor,
   setStatus,
   setUpdate,
-} from './tasksActions';
-
-import { StatusType, TagsType, TaskData, UsersType } from 'api/tasksData/types';
-import { ACTION } from 'enums/actionTypes';
+} from 'store';
 
 const initialState = {
   tasks: [] as TaskData[],

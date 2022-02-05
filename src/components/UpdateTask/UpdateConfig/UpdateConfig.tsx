@@ -2,9 +2,9 @@ import { ChangeEvent, FC } from 'react';
 
 import style from './UpdateConfig.module.scss';
 
-import { TaskData, UsersType } from 'api/tasksData/types';
-import { Select } from 'components/common/Select/Select';
-import { resolutionDate } from 'constants/base';
+import { TaskData, UsersType } from 'api';
+import { Select } from 'components';
+import { resolutionDate } from 'consts';
 
 type UpdateConfigProps = {
   task: TaskData;
@@ -17,21 +17,30 @@ export const UpdateConfig: FC<UpdateConfigProps> = ({ task, value, users, onChan
   <div className={style.container}>
     <span>Заявитель</span>
     <span>{task.initiatorName}</span>
-    <span>Исполнитель</span>
-    <div>
-      <span>{task.executorName}</span>
-      <Select value={value} items={users} onChangeHandle={onChange} />
+
+    <div className={style.executorBox}>
+      <span className={style.executor}>Исполнитель</span>
+      <div className={style.select}>
+        <div>{task.executorName}</div>
+        <Select value={value} options={users} onChangeHandle={onChange} />
+      </div>
     </div>
-    <span>Приоритет</span>
-    <span>{task.priorityName}</span>
-    <span>Срок</span>
-    <span>{resolutionDate(task)}</span>
-    <span>Теги</span>
-    {task.tags &&
-      task.tags.map(tag => (
-        <div className={style.tags} key={tag.id}>
-          {tag.name}
-        </div>
-      ))}
+    <div>
+      <span>Приоритет</span>
+      <span>{task.priorityName}</span>
+    </div>
+    <div>
+      <span>Срок</span>
+      <span>{resolutionDate(task)}</span>
+    </div>
+    <div>
+      <span>Теги</span>
+      {task.tags &&
+        task.tags.map(tag => (
+          <div className={style.tags} key={tag.id}>
+            {tag.name}
+          </div>
+        ))}
+    </div>
   </div>
 );

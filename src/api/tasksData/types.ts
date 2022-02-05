@@ -79,7 +79,7 @@ export type CreateModel = {
   statusId?: number;
   priorityId?: number;
   serviceId?: number;
-  resolutionDatePlan?: Date;
+  resolutionDatePlan?: string;
   tags?: TagsType[];
   initiatorId?: number;
   executorId?: number;

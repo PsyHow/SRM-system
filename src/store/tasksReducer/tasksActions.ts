@@ -1,5 +1,5 @@
-import { StatusType, TagsType, TaskData, UsersType } from 'api/tasksData/types';
-import { ACTION } from 'enums/actionTypes';
+import { StatusType, TagsType, TaskData, UsersType } from 'api';
+import { ACTION } from 'enums';
 
 export const getTasks = (tasks: TaskData[]) =>
   ({

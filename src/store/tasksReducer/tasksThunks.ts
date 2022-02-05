@@ -1,5 +1,7 @@
 import { Dispatch } from 'redux';
 
+import { tasksDataAPI } from 'api/tasksData/tasksDataAPI';
+import { CreateModel, UpdateTaskModel } from 'api/tasksData/types';
 import {
   getTasks,
   getTask,
@@ -12,10 +14,7 @@ import {
   setComment,
   getUsers,
   setExecutor,
-} from './tasksActions';
-
-import { tasksDataAPI } from 'api/tasksData/tasksDataAPI';
-import { CreateModel, UpdateTaskModel } from 'api/tasksData/types';
+} from 'store';
 
 export const fetchTasks = () => (dispatch: Dispatch) => {
   tasksDataAPI.fetchTasks().then(res => {

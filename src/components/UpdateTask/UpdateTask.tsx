@@ -4,29 +4,34 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import style from './UpdateTask.module.scss';
 
-import { Button } from 'components/common/Button/Button';
-import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
-import { Select } from 'components/common/Select/Select';
-import { TextArea } from 'components/common/TextArea/TextArea';
-import { StatusActive } from 'components/TasksList/TasksList';
-import { UpdateComment } from 'components/UpdateTask/UpdateComment/UpdateComment';
-import { UpdateConfig } from 'components/UpdateTask/UpdateConfig/UpdateConfig';
 import {
+  Button,
+  HeaderTask,
+  Select,
+  StatusActive,
+  TextArea,
+  UpdateComment,
+  UpdateConfig,
+} from 'components';
+import {
+  selectIsUpdate,
   selectNewTaskId,
   selectStatuses,
   selectTask,
   selectTasks,
   selectUsers,
-} from 'selectors/selectors';
-import { setUpdate } from 'store/tasksReducer/tasksActions';
+} from 'selectors';
 import {
   fetchTags,
   fetchUsers,
+  getNewTaskId,
+  getTask,
   getTaskById,
+  setUpdate,
   updateExecutor,
   updateStatusData,
   updateTaskData,
-} from 'store/tasksReducer/tasksThunks';
+} from 'store';
 
 type PropsType = {
   setStatus: (value: StatusActive) => void;
@@ -36,9 +41,10 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const task = useSelector(selectTask);
   const statuses = useSelector(selectStatuses);
-  const tasks = useSelector(selectTasks);
   const newTaskId = useSelector(selectNewTaskId);
   const users = useSelector(selectUsers);
+  const isUpdate = useSelector(selectIsUpdate);
+  const tasks = useSelector(selectTasks);
 
   const statusNames = statuses.map(status => status.name);
   const userNames = users.map(user => user.name);
@@ -47,15 +53,22 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const [user, setUser] = useState<string>(userNames[0]);
   const [value, setValue] = useState<string>('');
 
+  console.log(newTaskId, 'newTaskId');
+  console.log(task.id, 'task id');
+
   useEffect(() => {
-    if (newTaskId > 0) {
+    if (isUpdate && newTaskId !== task.id) {
       dispatch(getTaskById(newTaskId));
-    } else dispatch(getTaskById(task.id));
-  }, [tasks, newTaskId]);
+    }
+  }, [newTaskId, tasks]);
+
+  // useEffect(() => {
+  //   // if (isUpdate && task.id !== newTaskId)
+  //   dispatch(getTaskById(task.id));
+  // }, [tasks, task.id]);
 
   useEffect(() => {
     dispatch(fetchTags());
-    dispatch(fetchUsers());
   }, []);
 
   const onChangeSelectHandle = (event: ChangeEvent<HTMLSelectElement>): void => {
@@ -102,7 +115,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
             <span className={style.status}>{task.statusName}</span>
             <Select
               value={select}
-              items={statuses}
+              options={statuses}
               onChangeHandle={onChangeSelectHandle}
             />
           </div>

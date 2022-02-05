@@ -4,12 +4,9 @@ import { useDispatch } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
-import { Button } from 'components/common/Button/Button';
-import { HeaderTask } from 'components/common/HeaderTask/HeaderTask';
-import { TextArea } from 'components/common/TextArea/TextArea';
-import { StatusActive } from 'components/TasksList/TasksList';
-import { setUpdate } from 'store/tasksReducer/tasksActions';
-import { createTaskOData } from 'store/tasksReducer/tasksThunks';
+import { Button, HeaderTask, StatusActive, TextArea } from 'components';
+import { createTaskDate } from 'consts';
+import { createTaskOData, setUpdate } from 'store';
 
 type PropsType = {
   setStatus: (value: StatusActive) => void;
@@ -36,9 +33,14 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   };
 
   const onButtonClickHandle = (): void => {
-    dispatch(createTaskOData({ name: text.name, description: text.description }));
-    // dispatch(setUpdate(true));
-    // setStatus('DEFAULT');
+    dispatch(
+      createTaskOData({
+        name: text.name,
+        description: text.description,
+        resolutionDatePlan: createTaskDate,
+      }),
+    );
+    dispatch(setUpdate(true));
   };
 
   const closeWindowHandle = (): void => {

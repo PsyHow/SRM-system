@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import style from './UpdateComment.module.scss';
 
-import { TaskData } from 'api/tasksData/types';
-import { commentDate } from 'constants/base';
+import { TaskData } from 'api';
+import { commentDate } from 'consts';
 
 type UpdateCommentProps = {
   task: TaskData;

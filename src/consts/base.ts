@@ -14,3 +14,5 @@ export const commentDate = (LfItem: LifeTimeType) =>
     hour: 'numeric',
     minute: 'numeric',
   });
+
+export const createTaskDate = 'May 5, 2022 03:24:00';
