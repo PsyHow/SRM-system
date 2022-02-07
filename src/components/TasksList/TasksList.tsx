@@ -15,13 +15,13 @@ export const TasksList: FC = () => {
   const tasks = useSelector(selectTasks);
   const isUpdate = useSelector(selectIsUpdate);
 
-  const onClickHandle = (): void => {
+  const handleClick = (): void => {
     setStatus('CREATE');
   };
 
   return (
     <div className={style.container}>
-      <Button title="Создать Заявку" onClickHandle={onClickHandle} />
+      <Button type="button" title="Создать Заявку" onClick={handleClick} />
       <table className={style.table}>
         <thead>
           <tr>

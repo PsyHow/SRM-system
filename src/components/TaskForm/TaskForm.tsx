@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,12 +20,12 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   const task = useSelector(selectTask);
 
   useEffect(() => {
-    if (newTaskId !== task.id) {
+    if (newTaskId !== task.id && newTaskId !== 0) {
       dispatch(getTaskById(newTaskId));
     }
-  }, [newTaskId, task.id]);
+  }, [newTaskId]);
 
-  const changeNameHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+  const handleNameChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.currentTarget;
     setText(state => ({
       ...state,
@@ -33,7 +33,7 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
     }));
   };
 
-  const changeDescriptionHandle = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.currentTarget;
     setText(state => ({
       ...state,
@@ -41,7 +41,8 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
     }));
   };
 
-  const onButtonClickHandle = (): void => {
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     dispatch(
       createTaskOData({
         name: text.name,
@@ -52,19 +53,19 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
     dispatch(setUpdate(true));
   };
 
-  const closeWindowHandle = (): void => {
+  const handleCloseClick = (): void => {
     setStatus('DEFAULT');
     dispatch(setUpdate(false));
   };
 
   return (
-    <div className={style.container}>
-      <HeaderTask id="Новая Заявка" onClickHandle={closeWindowHandle} />
+    <form onSubmit={handleFormSubmit} className={style.container}>
+      <HeaderTask id="Новая Заявка" onClick={handleCloseClick} />
       <span>Название</span>
-      <TextArea value={text.name} onChangeHandle={changeNameHandle} />
+      <TextArea value={text.name} onChangeHandle={handleNameChange} />
       <span>Описание</span>
-      <TextArea value={text.description} onChangeHandle={changeDescriptionHandle} />
-      <Button title="Сохранить" onClickHandle={onButtonClickHandle} />
-    </div>
+      <TextArea value={text.description} onChangeHandle={handleDescriptionChange} />
+      <Button type="submit" title="Сохранить" />
+    </form>
   );
 };

@@ -6,7 +6,7 @@ import { StatusType, UsersType } from 'api';
 
 type SelectProps = {
   value: string;
-  options: StatusType[] | UsersType[];
+  options: UsersType[] | StatusType[];
   onChangeHandle: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 

@@ -1,5 +1,5 @@
 export enum Path {
-  TASKSLIST = '/',
+  TASKS_LIST = '/',
   KNOWLEDGE_PAGE = 'knowledge',
   USERS_PAGE = 'users',
   CLIENTS_PAGE = 'clients',

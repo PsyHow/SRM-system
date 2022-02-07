@@ -43,7 +43,7 @@ const App: FC = () => {
       <div className={style.content}>
         <Header />
         <Routes>
-          <Route path={Path.TASKSLIST} element={<TasksList />} />
+          <Route path={Path.TASKS_LIST} element={<TasksList />} />
           <Route path={Path.KNOWLEDGE_PAGE} element={<KnowledgePage />} />
           <Route path={Path.USERS_PAGE} element={<UsersPage />} />
           <Route path={Path.CLIENTS_PAGE} element={<ClientsPage />} />
