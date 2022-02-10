@@ -26,7 +26,12 @@ export const UpdateComment: FC<UpdateCommentProps> = ({ task }) => (
                 </div>
               </div>
               <div>
-                <p className={style.comment}>{LfItem.comment}</p>
+                <p
+                  className={style.comment}
+                  dangerouslySetInnerHTML={{
+                    __html: LfItem.comment && `${LfItem.comment.replace(/<[^>]+>/g, '')}`,
+                  }}
+                />
               </div>
             </>
           )}

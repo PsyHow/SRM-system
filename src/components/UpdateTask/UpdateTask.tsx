@@ -56,7 +56,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       status: value,
     }));
     const { id } = statuses.filter(st => st.name === event.currentTarget.value)[0];
-    dispatch(updateStatusData({ ...task, statusId: id }));
+    dispatch(updateStatusData({ ...task, statusId: id, tags: [] }));
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>): void => {
@@ -67,7 +67,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       name: value,
     }));
     const { id } = users.filter(usr => usr.name === event.currentTarget.value)[0];
-    dispatch(updateExecutor({ ...task, executorId: id }));
+    dispatch(updateExecutor({ ...task, executorId: id, tags: [] }));
   };
 
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -76,7 +76,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    dispatch(updateTaskData({ ...task, comment }));
+    dispatch(updateTaskData({ ...task, comment, tags: [] }));
     setComment('');
   };
 
@@ -91,7 +91,11 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       <div className={style.content}>
         <form onSubmit={handleFormSubmit} className={style.leftContent}>
           <span>Описание</span>
-          <p>{task.description}</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: task.description && `${task.description.replace(/<[^>]+>/g, '')}`,
+            }}
+          />
           <span>Добавление коментариев</span>
           <TextArea value={comment} onChangeHandle={handleTextChange} />
           <Button type="submit" title="Сохранить" />

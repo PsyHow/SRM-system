@@ -23,7 +23,7 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
     if (newTaskId !== task.id && newTaskId !== 0) {
       dispatch(getTaskById(newTaskId));
     }
-  }, [newTaskId]);
+  }, [newTaskId, task.id]);
 
   const handleNameChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.currentTarget;

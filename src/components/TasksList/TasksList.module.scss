@@ -30,6 +30,10 @@
       width: 120px;
     }
 
+    & tbody tr td:nth-child(3){
+      text-align: center;
+    }
+
     & tr td:last-child {
       width: 100vw;
     }
