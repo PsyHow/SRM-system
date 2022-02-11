@@ -16,3 +16,5 @@ export const commentDate = (LfItem: LifeTimeType) =>
   });
 
 export const createTaskDate = 'May 5, 2022 03:24:00';
+
+export const removalRepeatWords = /((?:(?:\s|^)[a-zа-яё]+(?=\s))+?)\s?\1(?=\s|$)/gi;

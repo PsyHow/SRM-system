@@ -6,22 +6,35 @@
   align-items: center;
   min-height: 65px;
   background-color: $primaryColor;
-  color: #ffffff;
+  color: $colorWhite;
+  font-family: Myriad Pro, sans-serif;
   font-size: 18px;
 
+  .id {
+    margin-left: 35px;
+    flex-grow: 1;
+    white-space: nowrap;
+  }
+
   .itemName {
-    text-align: center;
-    width: 350px;
+    font-family: 'Roboto', sans-serif;
+    flex-direction: column;
+    margin-left: 25px;
+    text-align: left;
+    width: 560px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 16px;
+    flex-grow: 6;
   }
 
   .closeButton {
+    flex-grow: 0;
     background-color: $primaryColor;
     border: none;
-    color: #ffffff;
+    color: $colorWhite;
     font-size: 20px;
+    margin-right: 30px;
   }
 }

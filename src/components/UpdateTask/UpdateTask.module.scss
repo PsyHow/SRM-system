@@ -3,7 +3,7 @@
 
 .container {
   @include flexContainer(flex, column, '');
-  width: 970px;
+  width: 745px;
   height: 100vh;
   background-color: $backgroundColor;
   overflow-y: scroll;
@@ -15,7 +15,7 @@
     .leftContent {
       @include flexContainer(flex, column, '');
       height: 100vh;
-      margin-left: 85px;
+      margin-left: 35px;
       font-size: 14px;
 
       .description {}
@@ -33,10 +33,14 @@
         margin-top: 14px;
         margin-left: 0;
         width: 400px;
+        height: 85px;
+        background-color: $backgroundColor;
+        border: none;
+        outline: none;
       }
 
       & button {
-        margin-left: 15px;
+        margin-left: 0;
         margin-bottom: 40px;
       }
     }

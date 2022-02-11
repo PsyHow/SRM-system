@@ -1,7 +1,8 @@
+@import "../../assets/sass/variables";
+
 .header {
   min-height: 65px;
-  //margin-left: 95px;
-  background-color: rgb(209, 224, 237);
+  background-color: $mainHeaderColor;
   width: 100%;
   display: flex;
   align-items: center;
@@ -12,7 +13,6 @@
     width: 680px;
     border-radius: 25px;
     margin-left: 18px;
-    //z-index: 2;
   }
 }
 

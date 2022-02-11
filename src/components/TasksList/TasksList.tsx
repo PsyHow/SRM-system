@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, TaskForm, UpdateTask } from 'components';
 import style from 'components/TasksList/TasksList.module.scss';
+import { removalRepeatWords } from 'consts/base';
 import { selectIsUpdate, selectTasks } from 'selectors';
 import { getTask } from 'store';
 
@@ -41,11 +42,14 @@ export const TasksList: FC = () => {
               // eslint-disable-next-line react/no-array-index-key
               <tr key={index} onClick={getTaskByIdHandle}>
                 <td>{task.id}</td>
-                <td>{task.name}</td>
+                <td>{task.name && task.name.replace(removalRepeatWords, '')}</td>
                 <td>
-                  <span style={{ backgroundColor: task.statusRgb }}>
-                    {task.statusName}
-                  </span>
+                  <div
+                    className={style.status}
+                    style={{ backgroundColor: task.statusRgb }}
+                  >
+                    {task.statusName && task.statusName.toLocaleLowerCase()}
+                  </div>
                 </td>
                 <td>{task.executorName}</td>
               </tr>
