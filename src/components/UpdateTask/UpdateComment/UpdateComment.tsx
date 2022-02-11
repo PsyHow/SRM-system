@@ -4,6 +4,7 @@ import style from './UpdateComment.module.scss';
 
 import { TaskData } from 'api';
 import { commentDate } from 'consts';
+import { removeRepeatWordsTags } from 'consts/base';
 
 type UpdateCommentProps = {
   task: TaskData;
@@ -28,8 +29,9 @@ export const UpdateComment: FC<UpdateCommentProps> = ({ task }) => (
               <div>
                 <p
                   className={style.comment}
+                  // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{
-                    __html: LfItem.comment && `${LfItem.comment.replace(/<[^>]+>/g, '')}`,
+                    __html: removeRepeatWordsTags(LfItem.comment),
                   }}
                 />
               </div>

@@ -1,13 +1,12 @@
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
 import { Button, HeaderTask, StatusActive, TextArea } from 'components';
 import { createTaskDate } from 'consts';
-import { selectNewTaskId, selectTask } from 'selectors';
-import { createTaskOData, getTaskById, setUpdate } from 'store';
+import { createTaskOData, setUpdate } from 'store';
 
 type PropsType = {
   setStatus: (value: StatusActive) => void;
@@ -16,14 +15,6 @@ type PropsType = {
 export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState({ name: '', description: '' });
-  const newTaskId = useSelector(selectNewTaskId);
-  const task = useSelector(selectTask);
-
-  useEffect(() => {
-    if (newTaskId !== task.id && newTaskId !== 0) {
-      dispatch(getTaskById(newTaskId));
-    }
-  }, [newTaskId, task.id]);
 
   const handleNameChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.currentTarget;
@@ -50,6 +41,7 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
         resolutionDatePlan: createTaskDate,
       }),
     );
+    setStatus('UPDATE');
     dispatch(setUpdate(true));
   };
 

@@ -13,7 +13,13 @@ import {
   UpdateComment,
   UpdateConfig,
 } from 'components';
-import { selectStatuses, selectTask, selectTasks, selectUsers } from 'selectors';
+import {
+  selectIsUpdate,
+  selectNewTaskId,
+  selectStatuses,
+  selectTask,
+  selectUsers,
+} from 'selectors';
 import {
   fetchTags,
   getTaskById,
@@ -32,7 +38,8 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const task = useSelector(selectTask);
   const statuses = useSelector(selectStatuses);
   const users = useSelector(selectUsers);
-  const tasks = useSelector(selectTasks);
+  const isUpdate = useSelector(selectIsUpdate);
+  const newTaskId = useSelector(selectNewTaskId);
 
   const [select, setSelect] = useState<{ name: string; status: string }>({
     name: task.executorName,
@@ -41,8 +48,8 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const [comment, setComment] = useState<string>('');
 
   useEffect(() => {
-    if (task.id) dispatch(getTaskById(task.id));
-  }, [tasks]);
+    if (task.id !== 0 && newTaskId && newTaskId !== 0) dispatch(getTaskById(newTaskId));
+  }, [isUpdate, newTaskId, task.id]);
 
   useEffect(() => {
     dispatch(fetchTags());
@@ -92,6 +99,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
         <form onSubmit={handleFormSubmit} className={style.leftContent}>
           <span>Описание</span>
           <p
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: task.description && `${task.description.replace(/<[^>]+>/g, '')}`,
             }}

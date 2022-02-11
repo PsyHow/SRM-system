@@ -17,13 +17,15 @@ import {
   UsersPage,
 } from 'components';
 import { Path } from 'enums';
-import { selectIsUpdate } from 'selectors';
+import { selectIsUpdate, selectNewTaskId, selectTask } from 'selectors';
 import { fetchStatuses, fetchTasks, fetchUsers } from 'store';
 
 const App: FC = () => {
   const dispatch = useDispatch();
 
   const isUpdate = useSelector(selectIsUpdate);
+  const task = useSelector(selectTask);
+  const newTaskId = useSelector(selectNewTaskId);
 
   useEffect(() => {
     dispatch(fetchStatuses());
@@ -31,7 +33,7 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(fetchTasks());
-  }, [isUpdate]);
+  }, [isUpdate, task.id, newTaskId]);
 
   useEffect(() => {
     dispatch(fetchUsers());

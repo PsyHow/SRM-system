@@ -43,13 +43,16 @@ export const getTaskById = (id: number) => (dispatch: Dispatch) => {
 };
 
 export const createTaskOData = (data: CreateModel) => (dispatch: Dispatch) => {
+  dispatch(setUpdate(false));
   tasksDataAPI.createTaskData(data).then(res => {
     dispatch(createTask(res.data.name, res.data.description));
     dispatch(getNewTaskId(res.data));
+    dispatch(setUpdate(true));
   });
 };
 
 export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
+  dispatch(setUpdate(false));
   tasksDataAPI.updateTask(data).then(res => {
     dispatch(setStatus(res.data.id, res.data.statusId));
     dispatch(setUpdate(true));
@@ -59,11 +62,12 @@ export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) 
 export const updateTaskData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
   tasksDataAPI.updateTask(data).then(res => {
     dispatch(setComment(res.data.id, res.data.comment));
-    dispatch(setUpdate(true));
+    // dispatch(setUpdate(true));
   });
 };
 
 export const updateExecutor = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
+  dispatch(setUpdate(false));
   tasksDataAPI.updateTask(data).then(res => {
     dispatch(setExecutor(res.data.id, res.data.executorId));
     dispatch(setUpdate(true));

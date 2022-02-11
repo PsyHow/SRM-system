@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, TaskForm, UpdateTask } from 'components';
 import style from 'components/TasksList/TasksList.module.scss';
-import { removalRepeatWords } from 'consts/base';
+import { removeRepeatWordsTags } from 'consts/base';
 import { selectIsUpdate, selectTasks } from 'selectors';
-import { getTask } from 'store';
+import { getNewTaskId, getTaskById } from 'store';
 
 export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
 
@@ -35,14 +35,19 @@ export const TasksList: FC = () => {
         <tbody>
           {tasks.map((task, index) => {
             const getTaskByIdHandle = (): void => {
-              dispatch(getTask(task));
+              dispatch(getNewTaskId(0));
+              dispatch(getTaskById(task.id));
               setStatus('UPDATE');
             };
             return (
               // eslint-disable-next-line react/no-array-index-key
               <tr key={index} onClick={getTaskByIdHandle}>
                 <td>{task.id}</td>
-                <td>{task.name && task.name.replace(removalRepeatWords, '')}</td>
+                <td>
+                  <div className={style.testDiv}>
+                    {task.name && removeRepeatWordsTags(task.name)}
+                  </div>
+                </td>
                 <td>
                   <div
                     className={style.status}

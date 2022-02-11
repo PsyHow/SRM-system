@@ -1,13 +1,13 @@
 import { LifeTimeType, TaskData } from 'api/tasksData/types';
 
-export const resolutionDate = (task: TaskData) =>
+export const resolutionDate = (task: TaskData): string =>
   new Date(task.resolutionDatePlan).toLocaleString('ru', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
   });
 
-export const commentDate = (LfItem: LifeTimeType) =>
+export const commentDate = (LfItem: LifeTimeType): string =>
   new Date(LfItem.createdAt).toLocaleString('ru', {
     day: 'numeric',
     month: 'long',
@@ -17,4 +17,11 @@ export const commentDate = (LfItem: LifeTimeType) =>
 
 export const createTaskDate = 'May 5, 2022 03:24:00';
 
-export const removalRepeatWords = /((?:(?:\s|^)[a-zа-яё]+(?=\s))+?)\s?\1(?=\s|$)/gi;
+export const removeRepeatWordsTags = (value: string): string =>
+  value &&
+  value
+    .replace(/,/g, ' ')
+    .replace(/(<([^>]+)>)/gi, '')
+    .split(' ')
+    .filter((item, index, array) => index === array.indexOf(item))
+    .join(' ');

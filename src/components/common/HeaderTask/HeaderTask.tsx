@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 
 import style from './HeaderTask.module.scss';
 
-import { removalRepeatWords } from 'consts/base';
+import { removeRepeatWordsTags } from 'consts/base';
 
 type HeaderProps = {
   id: number | string;
@@ -17,7 +17,7 @@ export const HeaderTask: FC<HeaderProps> = memo(({ onClick, id, name }) => (
     ) : (
       <span className={style.id}>{id}</span>
     )}
-    <span className={style.itemName}>{name && name.replace(removalRepeatWords, '')}</span>
+    <span className={style.itemName}>{name && removeRepeatWordsTags(name)}</span>
     <button type="button" className={style.closeButton} onClick={onClick}>
       X
     </button>
