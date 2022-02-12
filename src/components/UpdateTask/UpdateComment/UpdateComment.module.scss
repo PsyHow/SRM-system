@@ -1,40 +1,46 @@
 @import "src/assets/sass/mixins";
 @import "src/assets/sass/variables";
 
-.container {
-  .containerComment {
-    @include flexContainer(flex, column, '');
 
-    .commentBox {
-      display: flex;
+.containerComment {
+  @include flexContainer(flex, column, '');
+  font-size: 14px;
 
-      .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
-        border: 1px solid $borderColor;
-        background-color: $colorWhite;
-      }
+  .commentBox {
+    display: flex;
+    color: #525460;
 
-      .name {
-        align-self: center;
-        margin-left: 10px;
-        font-weight: 600;
-      }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      border: 1px solid $borderColor;
+      background-color: $colorWhite;
+    }
 
-      & span {
-        margin-left: 10px;
-      }
+    .name {
+      align-self: center;
+      margin-left: 10px;
+      font-weight: 600;
+    }
+
+    & span {
+      margin-left: 10px;
     }
   }
+}
 
-  .comment {
+.comment {
+  margin: 5px 0 20px 0;
+
+  .commentContent {
     display: inline-block;
-    max-width: 500px;
+    max-width: 350px;
     margin-left: 50px;
     border: 1px solid $borderColor;
     border-radius: 5px;
     background-color: #e3e9f4;
     padding: 5px;
+    color: $colorBlack;
   }
 }

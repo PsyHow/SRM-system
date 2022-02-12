@@ -2,7 +2,8 @@
 @import "src/assets/sass/variables";
 
 .container {
-  @include  flexContainer(flex, column, '');
+  @include flexContainer(flex, column, '');
+  font-size: 14px;
 
   & div {
     display: flex;
@@ -12,17 +13,24 @@
   & span:nth-child(odd) {
     margin-top: 35px;
     color: $titleColor;
+    margin-bottom: 10px;
   }
 
   & span:nth-child(even) {
-    color: #030303;
+    color: $colorBlack;
   }
+
   .executorBox {
     display: flex;
     flex-direction: column;
+
     .select {
       display: flex;
       flex-direction: row !important;
+
+      .executorName {
+        color: #3585d7;
+      }
 
       & select {
         margin-top: 0;
@@ -30,15 +38,28 @@
     }
   }
 
-
-  .tags {
-    border: 1px solid $borderColor;
-    border-radius: 20px;
-    padding: 0 15px 0 15px;
-    font-size: 12px;
-    color: $titleColor;
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
+  .tagsBox {
+    margin-bottom: 15px;
   }
+
+  & img {
+    margin-right: 5px;
+  }
+
+  .tagsContainer {
+    display: inline-block;
+    margin-bottom: 10px;
+
+    .tags {
+      border: 1px solid $borderColor;
+      border-radius: 20px;
+      padding: 0 10px 0 10px;
+      font-size: 12px;
+      color: $titleColor;
+      background-color: $colorWhite;
+      text-align: center;
+    }
+  }
+
+
 }

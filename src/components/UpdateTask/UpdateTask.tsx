@@ -19,7 +19,6 @@ import {
   selectNewTaskId,
   selectStatuses,
   selectTask,
-  selectTasks,
   selectUsers,
 } from 'selectors';
 import {
@@ -42,27 +41,24 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const users = useSelector(selectUsers);
   const isUpdate = useSelector(selectIsUpdate);
   const newTaskId = useSelector(selectNewTaskId);
-  const tasks = useSelector(selectTasks);
+
+  useEffect(() => {
+    if (newTaskId && newTaskId !== 0) dispatch(getTaskById(newTaskId));
+  }, [newTaskId, isUpdate]);
+
+  useEffect(() => {
+    if (task.id && newTaskId !== task.id) dispatch(getTaskById(task.id));
+  }, [task.id, isUpdate]);
+
+  useEffect(() => {
+    dispatch(fetchTags());
+  }, []);
 
   const [select, setSelect] = useState<{ name: string; status: string }>({
     name: task.executorName,
     status: task.statusName,
   });
   const [comment, setComment] = useState<string>('');
-
-  useEffect(() => {
-    // if (task.id !== 0 && newTaskId && newTaskId !== 0) dispatch(getTaskById(newTaskId));
-
-    if (newTaskId !== 0) dispatch(getTaskById(newTaskId));
-  }, [newTaskId, isUpdate]);
-
-  useEffect(() => {
-    if (newTaskId !== task.id) dispatch(getTaskById(task.id));
-  }, [task.id, isUpdate]);
-
-  useEffect(() => {
-    dispatch(fetchTags());
-  }, []);
 
   const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     event.preventDefault();
@@ -106,9 +102,11 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       <HeaderTask id={task.id} name={task.name} onClick={handleCloseClick} />
       <div className={style.content}>
         <form onSubmit={handleFormSubmit} className={style.leftContent}>
-          <span>Описание</span>
-          <p>{removeRepeatWordsTags(task.description)}</p>
-          <span>Добавление коментариев</span>
+          <div className={style.description}>Описание</div>
+          <span className={style.taskDescription}>
+            {removeRepeatWordsTags(task.description)}
+          </span>
+          <div className={style.description}>Добавление коментариев</div>
           <TextArea value={comment} onChangeHandle={handleTextChange} />
           <Button type="submit" title="Сохранить" />
           <UpdateComment task={task} />

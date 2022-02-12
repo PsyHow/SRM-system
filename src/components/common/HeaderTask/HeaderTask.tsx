@@ -18,9 +18,10 @@ export const HeaderTask: FC<HeaderProps> = memo(({ onClick, id, name }) => (
       <span className={style.id}>{id}</span>
     )}
     <span className={style.itemName}>{name && removeRepeatWordsTags(name)}</span>
-    <button type="button" className={style.closeButton} onClick={onClick}>
-      X
-    </button>
+    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+    <div className={style.closeBox} onClick={onClick}>
+      <div className={style.button} />
+    </div>
   </div>
 ));
 

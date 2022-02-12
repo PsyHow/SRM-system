@@ -3,6 +3,7 @@ import { ChangeEvent, FC, memo } from 'react';
 import style from './UpdateConfig.module.scss';
 
 import { TaskData, UsersType } from 'api';
+import icon from 'assets/images/calendar.png';
 import { Select } from 'components';
 import { resolutionDate } from 'consts';
 
@@ -22,7 +23,7 @@ export const UpdateConfig: FC<UpdateConfigProps> = memo(
       <div className={style.executorBox}>
         <span className={style.executor}>Исполнитель</span>
         <div className={style.select}>
-          <div>{task.executorName}</div>
+          <div className={style.executorName}>{task.executorName}</div>
           <Select value={value} options={users} onChangeHandle={onChange} />
         </div>
       </div>
@@ -32,14 +33,17 @@ export const UpdateConfig: FC<UpdateConfigProps> = memo(
       </div>
       <div>
         <span>Срок</span>
-        <span>{resolutionDate(task)}</span>
+        <span>
+          <img alt="calendar" src={icon} />
+          {resolutionDate(task)}
+        </span>
       </div>
       <div>
-        <span>Теги</span>
+        <span className={style.tagsBox}>Теги</span>
         {task.tags &&
           task.tags.map(tag => (
-            <div className={style.tags} key={tag.id}>
-              {tag.name}
+            <div className={style.tagsContainer} key={tag.id}>
+              <span className={style.tags}>{tag.name}</span>
             </div>
           ))}
       </div>

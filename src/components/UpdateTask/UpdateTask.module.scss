@@ -18,25 +18,22 @@
       margin-left: 35px;
       font-size: 14px;
 
-      .description {}
-
-      & span {
+      .description {
         color: $titleColor;
         margin-top: 25px;
       }
 
-      & p {
-        font-weight: 600;
+      .taskDescription {
+        margin: 15px 0 40px 0;
       }
 
       & textArea {
-        margin-top: 14px;
-        margin-left: 0;
+        margin: 14px 0 0 0;
         width: 400px;
-        height: 85px;
+        min-height: 85px;
+        max-height: 85px;
         background-color: $backgroundColor;
         border: none;
-        outline: none;
       }
 
       & button {
@@ -52,6 +49,7 @@
       width: 240px;
       height: 100%;
       border-left: 1px solid $borderColor;
+      font-size: 14px;
 
       .statusBox {
         @include flexContainer(flex, '', center);
