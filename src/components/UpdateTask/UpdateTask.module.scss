@@ -3,7 +3,7 @@
 
 .container {
   @include flexContainer(flex, column, '');
-  width: 745px;
+  width: 850px;
   height: 100vh;
   background-color: $backgroundColor;
   overflow-y: scroll;

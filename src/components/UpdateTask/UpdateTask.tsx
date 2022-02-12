@@ -13,11 +13,13 @@ import {
   UpdateComment,
   UpdateConfig,
 } from 'components';
+import { removeRepeatWordsTags } from 'consts/base';
 import {
   selectIsUpdate,
   selectNewTaskId,
   selectStatuses,
   selectTask,
+  selectTasks,
   selectUsers,
 } from 'selectors';
 import {
@@ -40,6 +42,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const users = useSelector(selectUsers);
   const isUpdate = useSelector(selectIsUpdate);
   const newTaskId = useSelector(selectNewTaskId);
+  const tasks = useSelector(selectTasks);
 
   const [select, setSelect] = useState<{ name: string; status: string }>({
     name: task.executorName,
@@ -48,8 +51,14 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const [comment, setComment] = useState<string>('');
 
   useEffect(() => {
-    if (task.id !== 0 && newTaskId && newTaskId !== 0) dispatch(getTaskById(newTaskId));
-  }, [isUpdate, newTaskId, task.id]);
+    // if (task.id !== 0 && newTaskId && newTaskId !== 0) dispatch(getTaskById(newTaskId));
+
+    if (newTaskId !== 0) dispatch(getTaskById(newTaskId));
+  }, [newTaskId, isUpdate]);
+
+  useEffect(() => {
+    if (newTaskId !== task.id) dispatch(getTaskById(task.id));
+  }, [task.id, isUpdate]);
 
   useEffect(() => {
     dispatch(fetchTags());
@@ -98,12 +107,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       <div className={style.content}>
         <form onSubmit={handleFormSubmit} className={style.leftContent}>
           <span>Описание</span>
-          <p
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: task.description && `${task.description.replace(/<[^>]+>/g, '')}`,
-            }}
-          />
+          <p>{removeRepeatWordsTags(task.description)}</p>
           <span>Добавление коментариев</span>
           <TextArea value={comment} onChangeHandle={handleTextChange} />
           <Button type="submit" title="Сохранить" />
