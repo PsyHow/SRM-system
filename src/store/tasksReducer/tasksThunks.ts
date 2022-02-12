@@ -61,8 +61,9 @@ export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) 
 
 export const updateTaskData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
   tasksDataAPI.updateTask(data).then(res => {
+    dispatch(setUpdate(false));
     dispatch(setComment(res.data.id, res.data.comment));
-    // dispatch(setUpdate(true));
+    dispatch(setUpdate(true));
   });
 };
 
