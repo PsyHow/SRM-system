@@ -35,23 +35,23 @@
     }
 
     .idPriority {
-      display: flex;
-      align-items: center;
       position: relative;
       & span {
+        margin-left: 3px;
         position: absolute;
         left: 0;
+        top: 3px;
         width: 4px;
-        height: 100%;
-        background-color: red;
+        height: 90%;
       }
     }
 
-    & tbody tr td:nth-child(3){
+    & tbody tr td:nth-child(3) {
       max-width: 110px;
       text-align: left;
     }
-    & tbody tr td:nth-child(2){
+
+    & tbody tr td:nth-child(2) {
       max-width: 390px;
       min-width: 390px;
 

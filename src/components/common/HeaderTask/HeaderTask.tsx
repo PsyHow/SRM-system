@@ -5,14 +5,14 @@ import style from './HeaderTask.module.scss';
 import { removeRepeatWordsTags } from 'consts/base';
 
 type HeaderProps = {
-  id: number | string;
+  title: string;
   name?: string;
   onClick: () => void;
 };
 
-export const HeaderTask: FC<HeaderProps> = memo(({ onClick, id, name }) => (
+export const HeaderTask: FC<HeaderProps> = memo(({ onClick, title, name }) => (
   <div className={style.header}>
-    {typeof id === 'number' ? <span>{`№${id}`}</span> : <span>{id}</span>}
+    <span>{title}</span>
     <div className={style.itemName}>
       <div>{name && removeRepeatWordsTags(name)}</div>
     </div>

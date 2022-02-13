@@ -42,6 +42,12 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const isUpdate = useSelector(selectIsUpdate);
   const newTaskId = useSelector(selectNewTaskId);
 
+  const [select, setSelect] = useState<{ name: string; status: string }>({
+    name: task.executorName,
+    status: task.statusName,
+  });
+  const [comment, setComment] = useState<string>('');
+
   useEffect(() => {
     if (newTaskId && newTaskId !== 0) {
       dispatch(getTaskById(newTaskId));
@@ -49,38 +55,36 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   }, [newTaskId, isUpdate]);
 
   useEffect(() => {
-    if (task.id && newTaskId !== task.id) dispatch(getTaskById(task.id));
+    if (task.id && task.id !== newTaskId) {
+      dispatch(getTaskById(task.id));
+    }
   }, [task.id, isUpdate]);
 
   useEffect(() => {
     dispatch(fetchTags());
   }, []);
 
-  const [select, setSelect] = useState<{ name: string; status: string }>({
-    name: task.executorName,
-    status: task.statusName,
-  });
-  const [comment, setComment] = useState<string>('');
-
   const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     event.preventDefault();
     const { value } = event.currentTarget;
+    const { id } = statuses.filter(status => status.name === value)[0];
+
     setSelect(state => ({
       ...state,
       status: value,
     }));
-    const { id } = statuses.filter(st => st.name === event.currentTarget.value)[0];
     dispatch(updateStatusData({ ...task, statusId: id, tags: [] }));
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     event.preventDefault();
     const { value } = event.currentTarget;
+    const { id } = users.filter(user => user.name === value)[0];
+
     setSelect(state => ({
       ...state,
       name: value,
     }));
-    const { id } = users.filter(usr => usr.name === event.currentTarget.value)[0];
     dispatch(updateExecutor({ ...task, executorId: id, tags: [] }));
   };
 
@@ -90,6 +94,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+
     dispatch(updateTaskData({ ...task, comment, tags: [] }));
     setComment('');
   };
@@ -101,7 +106,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
 
   return (
     <div className={style.container}>
-      <HeaderTask id={task.id} name={task.name} onClick={handleCloseClick} />
+      <HeaderTask title={`№${task.id}`} name={task.name} onClick={handleCloseClick} />
       <div className={style.content}>
         <form onSubmit={handleFormSubmit} className={style.leftContent}>
           <div className={style.description}>Описание</div>

@@ -40,6 +40,7 @@
     position: relative;
     flex-grow: 1;
     margin-right: 10px;
+
     .button {
       position: absolute;
       left: 50%;
@@ -64,15 +65,5 @@
       }
     }
 
-  }
-
-
-  .closeButton {
-    flex-grow: 0;
-    background-color: $primaryColor;
-    border: none;
-    color: $colorWhite;
-    font-size: 20px;
-    margin-right: 30px;
   }
 }

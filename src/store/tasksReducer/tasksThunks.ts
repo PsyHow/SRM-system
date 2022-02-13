@@ -46,8 +46,8 @@ export const getTaskById = (id: number) => (dispatch: Dispatch) => {
 export const createTaskOData = (data: CreateModel) => (dispatch: Dispatch) => {
   dispatch(setUpdate(false));
   tasksDataAPI.createTaskData(data).then(res => {
-    dispatch(createTask(res.data.name, res.data.description));
     dispatch(getNewTaskId(res.data));
+    dispatch(createTask(res.data.name, res.data.description));
     dispatch(setUpdate(true));
   });
 };
@@ -76,7 +76,7 @@ export const updateExecutor = (data: UpdateTaskModel) => (dispatch: Dispatch) =>
   });
 };
 
-export const fetchPriorites = () => (dispatch: Dispatch) => {
+export const fetchPriorities = () => (dispatch: Dispatch) => {
   tasksDataAPI.fetchPriorities().then(res => {
     dispatch(getPriorities(res.data));
   });

@@ -18,7 +18,7 @@ import {
 } from 'components';
 import { Path } from 'enums';
 import { selectIsUpdate, selectNewTaskId, selectTask } from 'selectors';
-import { fetchPriorites, fetchStatuses, fetchTasks, fetchUsers } from 'store';
+import { fetchPriorities, fetchStatuses, fetchTasks, fetchUsers } from 'store';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -29,19 +29,13 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(fetchStatuses());
-  }, [isUpdate]);
+    dispatch(fetchPriorities());
+    dispatch(fetchUsers());
+  }, []);
 
   useEffect(() => {
     dispatch(fetchTasks());
   }, [isUpdate, task.id, newTaskId]);
-
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [isUpdate]);
-
-  useEffect(() => {
-    dispatch(fetchPriorites());
-  }, [isUpdate]);
 
   return (
     <div className={style.container}>

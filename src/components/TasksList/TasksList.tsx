@@ -42,14 +42,16 @@ export const TasksList: FC = () => {
               dispatch(getTask(task));
               setStatus('UPDATE');
             };
+
             const priorityColor = priorities.filter(
               color => color.id === task.priorityId,
             )[0];
+
             return (
               // eslint-disable-next-line react/no-array-index-key
               <tr key={index} onClick={getTaskByIdHandle}>
                 <td className={style.idPriority}>
-                  <span style={{ backgroundColor: priorityColor.rgb }} />
+                  {task.id && <span style={{ backgroundColor: priorityColor.rgb }} />}
                   {task.id}
                 </td>
                 <td>

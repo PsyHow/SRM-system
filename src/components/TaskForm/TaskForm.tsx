@@ -51,7 +51,7 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
 
   return (
     <form onSubmit={handleFormSubmit} className={style.container}>
-      <HeaderTask id="Новая Заявка" onClick={handleCloseClick} />
+      <HeaderTask title="Новая Заявка" onClick={handleCloseClick} />
       <span>Название</span>
       <TextArea value={text.name} onChangeHandle={handleNameChange} />
       <span>Описание</span>

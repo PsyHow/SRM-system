@@ -118,7 +118,6 @@ export const tasksReducer = (
             ...state.task,
             name: action.payload.name,
             description: action.payload.description,
-            priorityId: 104748,
           },
         ],
       };

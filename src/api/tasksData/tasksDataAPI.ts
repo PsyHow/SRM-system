@@ -1,6 +1,6 @@
 import { CreateModel, instance, StatusType, TaskResponse, UpdateTaskModel } from 'api';
 
-const tenantguid = '53a71225-9b70-433e-b436-a1e2408eae9f';
+const tenantguid = '242b93e7-0258-40b7-a716-0b6f2a27a4c3';
 
 export const tasksDataAPI = {
   fetchTasks() {
