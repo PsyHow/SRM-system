@@ -1,8 +1,9 @@
-import { StatusType, TagsType, TaskData, UsersType } from 'api';
+import { PrioritiesType, StatusType, TagsType, TaskData, UsersType } from 'api';
 import { ACTION } from 'enums';
 import {
   createTask,
   getNewTaskId,
+  getPriorities,
   getStatuses,
   getTags,
   getTask,
@@ -22,6 +23,7 @@ const initialState = {
   newTaskId: 0,
   tags: [] as TagsType[],
   users: [] as UsersType[],
+  priorities: [] as PrioritiesType[],
 };
 
 export const tasksReducer = (
@@ -29,6 +31,12 @@ export const tasksReducer = (
   action: ActionReducer,
 ): InitialState => {
   switch (action.type) {
+    case ACTION.GET_PRIORITIES: {
+      return {
+        ...state,
+        priorities: action.payload,
+      };
+    }
     case ACTION.GET_TAGS: {
       return {
         ...state,
@@ -110,6 +118,7 @@ export const tasksReducer = (
             ...state.task,
             name: action.payload.name,
             description: action.payload.description,
+            priorityId: 104748,
           },
         ],
       };
@@ -132,4 +141,5 @@ type ActionReducer =
   | ReturnType<typeof getNewTaskId>
   | ReturnType<typeof getTags>
   | ReturnType<typeof getUsers>
-  | ReturnType<typeof setExecutor>;
+  | ReturnType<typeof setExecutor>
+  | ReturnType<typeof getPriorities>;

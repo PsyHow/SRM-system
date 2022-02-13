@@ -90,3 +90,9 @@ export type UsersType = {
   id: number;
   name: string;
 };
+
+export type PrioritiesType = {
+  rgb: string;
+  id: number;
+  name: string;
+};

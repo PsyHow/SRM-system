@@ -1,6 +1,6 @@
-import { CreateModel, StatusType, TaskResponse, UpdateTaskModel, instance } from 'api';
+import { CreateModel, instance, StatusType, TaskResponse, UpdateTaskModel } from 'api';
 
-const tenantguid = 'f57869f6-69b8-4600-9f47-7c3efe09eb56';
+const tenantguid = '53a71225-9b70-433e-b436-a1e2408eae9f';
 
 export const tasksDataAPI = {
   fetchTasks() {
@@ -23,5 +23,8 @@ export const tasksDataAPI = {
   },
   fetchUsers() {
     return instance.get(`/api/${tenantguid}/Users`);
+  },
+  fetchPriorities() {
+    return instance.get(`/api/${tenantguid}/Priorities`);
   },
 };

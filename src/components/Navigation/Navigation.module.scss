@@ -7,34 +7,29 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   .logo {
-    margin-bottom: 30px;
+    margin: 20px 0 20px 0;
   }
 
   & a {
     text-decoration: none;
     color: $colorWhite;
   }
+
   .box {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     font-size: 12px;
+    padding: 10px 0 10px 0;
   }
 
   .activeLink {
     color: $colorWhite;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     font-size: 12px;
-    filter: invert(1);
-  }
-
-  & img {
-    margin-top: 20px;
+    background-color: #002c49;
   }
 
 }

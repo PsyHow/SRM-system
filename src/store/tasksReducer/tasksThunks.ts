@@ -14,6 +14,7 @@ import {
   setComment,
   getUsers,
   setExecutor,
+  getPriorities,
 } from 'store';
 
 export const fetchTasks = () => (dispatch: Dispatch) => {
@@ -61,7 +62,7 @@ export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) 
 
 export const updateTaskData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
   tasksDataAPI.updateTask(data).then(res => {
-    // dispatch(setUpdate(false));
+    dispatch(setUpdate(false));
     dispatch(setComment(res.data.id, res.data.comment));
     dispatch(setUpdate(true));
   });
@@ -72,5 +73,11 @@ export const updateExecutor = (data: UpdateTaskModel) => (dispatch: Dispatch) =>
   tasksDataAPI.updateTask(data).then(res => {
     dispatch(setExecutor(res.data.id, res.data.executorId));
     dispatch(setUpdate(true));
+  });
+};
+
+export const fetchPriorites = () => (dispatch: Dispatch) => {
+  tasksDataAPI.fetchPriorities().then(res => {
+    dispatch(getPriorities(res.data));
   });
 };

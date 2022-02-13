@@ -11,8 +11,13 @@
 
   & input {
     width: 680px;
+    height: 40px;
     border-radius: 25px;
     margin-left: 18px;
+    border: 1px solid #42aaff;
+    outline: none;
+    padding: 15px;
+    background: url("../../assets/images/search.png") no-repeat center right 20px $colorWhite;
   }
 }
 

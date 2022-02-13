@@ -12,25 +12,28 @@ type UpdateCommentProps = {
 
 export const UpdateComment: FC<UpdateCommentProps> = ({ task }) => (
   <div>
-    {task.lifetimeItems.map(LfItem => (
-      <div key={LfItem.id} className={style.containerComment}>
-        {LfItem.comment && (
-          <>
-            <div className={style.commentBox}>
-              <div className={style.avatar} />
-              <div>
-                <div className={style.name}>{task.initiatorName}</div>
-                <span className={style.date}>{commentDate(LfItem)} прокомментировал</span>
+    {task.lifetimeItems &&
+      task.lifetimeItems.map(LfItem => (
+        <div key={LfItem.id} className={style.containerComment}>
+          {LfItem.comment && (
+            <>
+              <div className={style.commentBox}>
+                <div className={style.avatar} />
+                <div>
+                  <div className={style.name}>{task.initiatorName}</div>
+                  <span className={style.date}>
+                    {commentDate(LfItem)} прокомментировал
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className={style.comment}>
-              <span className={style.commentContent}>
-                {removeRepeatWordsTags(LfItem.comment)}
-              </span>
-            </div>
-          </>
-        )}
-      </div>
-    ))}
+              <div className={style.comment}>
+                <span className={style.commentContent}>
+                  {removeRepeatWordsTags(LfItem.comment)}
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+      ))}
   </div>
 );

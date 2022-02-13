@@ -6,7 +6,8 @@ import { Button, TaskForm, UpdateTask } from 'components';
 import style from 'components/TasksList/TasksList.module.scss';
 import { removeRepeatWordsTags } from 'consts/base';
 import { selectIsUpdate, selectTasks } from 'selectors';
-import { getNewTaskId, getTaskById } from 'store';
+import { selectPriorities } from 'selectors/selectors';
+import { getNewTaskId, getTask, setUpdate } from 'store';
 
 export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
 
@@ -15,8 +16,10 @@ export const TasksList: FC = () => {
   const dispatch = useDispatch();
   const tasks = useSelector(selectTasks);
   const isUpdate = useSelector(selectIsUpdate);
+  const priorities = useSelector(selectPriorities);
 
   const handleClick = (): void => {
+    dispatch(setUpdate(false));
     setStatus('CREATE');
   };
 
@@ -36,17 +39,21 @@ export const TasksList: FC = () => {
           {tasks.map((task, index) => {
             const getTaskByIdHandle = (): void => {
               dispatch(getNewTaskId(0));
-              dispatch(getTaskById(task.id));
+              dispatch(getTask(task));
               setStatus('UPDATE');
             };
+            const priorityColor = priorities.filter(
+              color => color.id === task.priorityId,
+            )[0];
             return (
               // eslint-disable-next-line react/no-array-index-key
               <tr key={index} onClick={getTaskByIdHandle}>
-                <td>{task.id}</td>
+                <td className={style.idPriority}>
+                  <span style={{ backgroundColor: priorityColor.rgb }} />
+                  {task.id}
+                </td>
                 <td>
-                  <div className={style.testDiv}>
-                    {task.name && removeRepeatWordsTags(task.name)}
-                  </div>
+                  <div>{task.name && removeRepeatWordsTags(task.name)}</div>
                 </td>
                 <td>
                   <div

@@ -1,4 +1,4 @@
-import { StatusType, TaskData, UsersType } from 'api/tasksData/types';
+import { PrioritiesType, StatusType, TaskData, UsersType } from 'api/tasksData/types';
 import { AppRootState } from 'store/store';
 
 export const selectTask = (state: AppRootState): TaskData => state.tasksReducer.task;
@@ -10,3 +10,5 @@ export const selectIsUpdate = (state: AppRootState): boolean =>
 export const selectNewTaskId = (state: AppRootState): number =>
   state.tasksReducer.newTaskId;
 export const selectUsers = (state: AppRootState): UsersType[] => state.tasksReducer.users;
+export const selectPriorities = (state: AppRootState): PrioritiesType[] =>
+  state.tasksReducer.priorities;

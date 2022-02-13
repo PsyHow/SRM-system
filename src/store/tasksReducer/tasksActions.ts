@@ -1,4 +1,4 @@
-import { StatusType, TagsType, TaskData, UsersType } from 'api';
+import { PrioritiesType, StatusType, TagsType, TaskData, UsersType } from 'api';
 import { ACTION } from 'enums';
 
 export const getTasks = (tasks: TaskData[]) =>
@@ -71,4 +71,10 @@ export const createTask = (name: string, description: string) =>
       name,
       description,
     },
+  } as const);
+
+export const getPriorities = (priorities: PrioritiesType[]) =>
+  ({
+    type: ACTION.GET_PRIORITIES,
+    payload: priorities,
   } as const);

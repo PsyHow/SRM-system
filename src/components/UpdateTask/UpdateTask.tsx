@@ -43,7 +43,9 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const newTaskId = useSelector(selectNewTaskId);
 
   useEffect(() => {
-    if (newTaskId && newTaskId !== 0) dispatch(getTaskById(newTaskId));
+    if (newTaskId && newTaskId !== 0) {
+      dispatch(getTaskById(newTaskId));
+    }
   }, [newTaskId, isUpdate]);
 
   useEffect(() => {

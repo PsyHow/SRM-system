@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import style from './TaskForm.module.scss';
 
 import { Button, HeaderTask, StatusActive, TextArea } from 'components';
-import { createTaskDate } from 'consts';
 import { createTaskOData, setUpdate } from 'store';
 
 type PropsType = {
@@ -38,7 +37,7 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
       createTaskOData({
         name: text.name,
         description: text.description,
-        resolutionDatePlan: createTaskDate,
+        priorityId: 104748,
       }),
     );
     setStatus('UPDATE');
