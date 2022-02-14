@@ -1,10 +1,10 @@
-import { CreateModel, instance, StatusType, TaskResponse, UpdateTaskModel } from 'api';
+import { CreateModel, instance, StatusType, UpdateTaskModel } from 'api';
 
-const tenantguid = 'e4c0deba-6eae-42f0-abe0-49fdcc66dbea';
+const tenantguid = '80ae823f-158a-4c25-8521-2e2025b23c81';
 
 export const tasksDataAPI = {
   fetchTasks() {
-    return instance.get<TaskResponse>(`/odata/tasks`, { params: { tenantguid } });
+    return instance.get(`/odata/tasks`, { params: { tenantguid } });
   },
   fetchTask(id: number) {
     return instance.get(`api/${tenantguid}/Tasks/${id}`);

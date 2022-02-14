@@ -26,6 +26,7 @@ export const TasksList: FC = () => {
   return (
     <div className={style.container}>
       <Button type="button" title="Создать Заявку" onClick={handleClick} />
+
       <table className={style.table}>
         <thead>
           <tr>
@@ -35,6 +36,7 @@ export const TasksList: FC = () => {
             <td>Исполнитель</td>
           </tr>
         </thead>
+
         <tbody>
           {tasks.map((task, index) => {
             const getTaskByIdHandle = (): void => {
@@ -71,6 +73,7 @@ export const TasksList: FC = () => {
           })}
         </tbody>
       </table>
+
       {status === 'CREATE' && (
         <div className={style.task}>
           <TaskForm setStatus={setStatus} />

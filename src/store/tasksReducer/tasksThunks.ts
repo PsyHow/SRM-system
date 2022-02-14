@@ -1,83 +1,138 @@
-import { Dispatch } from 'redux';
-
 import { tasksDataAPI } from 'api/tasksData/tasksDataAPI';
 import { CreateModel, UpdateTaskModel } from 'api/tasksData/types';
 import {
-  getTasks,
-  getTask,
-  getNewTaskId,
   createTask,
-  setUpdate,
-  getTags,
-  getStatuses,
-  setStatus,
-  setComment,
-  getUsers,
-  setExecutor,
+  getNewTaskId,
   getPriorities,
+  getStatuses,
+  getTags,
+  getTask,
+  getTasks,
+  getUsers,
+  setComment,
+  setError,
+  setExecutor,
+  setStatus,
+  setUpdate,
 } from 'store';
+import { AppThunkType } from 'store/store';
 
-export const fetchTasks = () => (dispatch: Dispatch) => {
-  tasksDataAPI.fetchTasks().then(res => {
+export const fetchTasks = (): AppThunkType => async dispatch => {
+  try {
+    const res = await tasksDataAPI.fetchTasks();
     dispatch(getTasks(res.data.value));
-  });
+  } catch (error) {
+    dispatch(setError((error as Error).message));
+  }
 };
 
-export const fetchStatuses = () => (dispatch: Dispatch) => {
-  tasksDataAPI.getStatuses().then(res => {
+export const fetchStatuses = (): AppThunkType => async dispatch => {
+  try {
+    const res = await tasksDataAPI.getStatuses();
     dispatch(getStatuses(res.data));
-  });
+  } catch (error) {
+    dispatch(setError((error as Error).message));
+  }
 };
 
-export const fetchTags = () => (dispatch: Dispatch) => {
-  tasksDataAPI.fetchTags().then(res => dispatch(getTags(res.data)));
+export const fetchTags = (): AppThunkType => async dispatch => {
+  try {
+    const res = await tasksDataAPI.fetchTags();
+    dispatch(getTags(res.data));
+  } catch (error) {
+    dispatch(setError((error as Error).message));
+  }
 };
 
-export const fetchUsers = () => (dispatch: Dispatch) => {
-  tasksDataAPI.fetchUsers().then(res => dispatch(getUsers(res.data)));
+export const fetchUsers = (): AppThunkType => async dispatch => {
+  try {
+    const res = await tasksDataAPI.fetchUsers();
+    dispatch(getUsers(res.data));
+  } catch (error) {
+    dispatch(setError((error as Error).message));
+  }
 };
 
-export const getTaskById = (id: number) => (dispatch: Dispatch) => {
-  tasksDataAPI.fetchTask(id).then(res => {
-    dispatch(getTask(res.data));
-  });
-};
+export const getTaskById =
+  (id: number): AppThunkType =>
+  async dispatch => {
+    try {
+      const res = await tasksDataAPI.fetchTask(id);
+      dispatch(getTask(res.data));
+    } catch (error) {
+      dispatch(setError((error as Error).message));
+    }
+  };
 
-export const createTaskOData = (data: CreateModel) => (dispatch: Dispatch) => {
-  dispatch(setUpdate(false));
-  tasksDataAPI.createTaskData(data).then(res => {
-    dispatch(getNewTaskId(res.data));
-    dispatch(createTask(res.data.name, res.data.description));
-    dispatch(setUpdate(true));
-  });
-};
-
-export const updateStatusData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
-  dispatch(setUpdate(false));
-  tasksDataAPI.updateTask(data).then(res => {
-    dispatch(setStatus(res.data.id, res.data.statusId));
-    dispatch(setUpdate(true));
-  });
-};
-
-export const updateTaskData = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
-  tasksDataAPI.updateTask(data).then(res => {
+export const createTaskOData =
+  (data: CreateModel): AppThunkType =>
+  async dispatch => {
     dispatch(setUpdate(false));
-    dispatch(setComment(res.data.id, res.data.comment));
-    dispatch(setUpdate(true));
-  });
-};
+    try {
+      const res = await tasksDataAPI.createTaskData(data);
+      dispatch(getNewTaskId(res.data));
+      dispatch(createTask(res.data.name, res.data.description));
+      dispatch(setUpdate(true));
+    } catch (error) {
+      dispatch(setError((error as Error).message));
+    }
+  };
 
-export const updateExecutor = (data: UpdateTaskModel) => (dispatch: Dispatch) => {
-  dispatch(setUpdate(false));
-  tasksDataAPI.updateTask(data).then(res => {
-    dispatch(setExecutor(res.data.id, res.data.executorId));
-    dispatch(setUpdate(true));
-  });
-};
+export const updateStatusData =
+  (data: UpdateTaskModel): AppThunkType =>
+  async dispatch => {
+    dispatch(setUpdate(false));
+    try {
+      const res = await tasksDataAPI.updateTask(data);
+      dispatch(setStatus(res.data.id, res.data.statusId));
+      dispatch(setUpdate(true));
+    } catch (error) {
+      dispatch(setError((error as Error).message));
+    }
+  };
 
-export const fetchPriorities = () => (dispatch: Dispatch) => {
-  tasksDataAPI.fetchPriorities().then(res => {
+export const updateTaskData =
+  (data: UpdateTaskModel): AppThunkType =>
+  async dispatch => {
+    dispatch(setUpdate(false));
+    try {
+      const res = await tasksDataAPI.updateTask(data);
+      dispatch(setComment(res.data.id, res.data.comment));
+      dispatch(setUpdate(true));
+    } catch (error) {
+      dispatch(setError((error as Error).message));
+    }
+  };
+
+export const updateExecutor =
+  (data: UpdateTaskModel): AppThunkType =>
+  async dispatch => {
+    dispatch(setUpdate(false));
+    try {
+      const res = await tasksDataAPI.updateTask(data);
+      dispatch(setExecutor(res.data.id, res.data.executorId));
+      dispatch(setUpdate(true));
+    } catch (error) {
+      dispatch(setError((error as Error).message));
+    }
+  };
+
+export const fetchPriorities = (): AppThunkType => async dispatch => {
+  try {
+    const res = await tasksDataAPI.fetchPriorities();
     dispatch(getPriorities(res.data));
-  });
+  } catch (error) {
+    dispatch(setError((error as Error).message));
+  }
+};
+
+export const initializeApp = (): AppThunkType => async dispatch => {
+  const promise1 = dispatch(fetchPriorities());
+  const promise2 = dispatch(fetchStatuses());
+  const promise3 = dispatch(fetchUsers());
+  try {
+    await Promise.all([promise1, promise2, promise3]);
+  } catch (error) {
+    dispatch(setError((error as Error).message));
+  }
 };

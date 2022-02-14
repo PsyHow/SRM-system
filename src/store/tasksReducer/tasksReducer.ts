@@ -10,6 +10,7 @@ import {
   getTasks,
   getUsers,
   setComment,
+  setError,
   setExecutor,
   setStatus,
   setUpdate,
@@ -24,6 +25,7 @@ const initialState = {
   tags: [] as TagsType[],
   users: [] as UsersType[],
   priorities: [] as PrioritiesType[],
+  error: null as null | string,
 };
 
 export const tasksReducer = (
@@ -122,6 +124,12 @@ export const tasksReducer = (
         ],
       };
     }
+    case ACTION.SET_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
     default:
       return state;
   }
@@ -129,7 +137,7 @@ export const tasksReducer = (
 
 type InitialState = typeof initialState;
 
-type ActionReducer =
+export type ActionReducer =
   | ReturnType<typeof getTasks>
   | ReturnType<typeof getTask>
   | ReturnType<typeof setComment>
@@ -141,4 +149,5 @@ type ActionReducer =
   | ReturnType<typeof getTags>
   | ReturnType<typeof getUsers>
   | ReturnType<typeof setExecutor>
-  | ReturnType<typeof getPriorities>;
+  | ReturnType<typeof getPriorities>
+  | ReturnType<typeof setError>;

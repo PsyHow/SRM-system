@@ -33,13 +33,13 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    dispatch(
-      createTaskOData({
-        name: text.name,
-        description: text.description,
-        priorityId: 104748,
-      }),
-    );
+    const data = {
+      name: text.name,
+      description: text.description,
+      priorityId: 104748,
+    };
+
+    dispatch(createTaskOData(data));
     setStatus('UPDATE');
     dispatch(setUpdate(true));
   };
@@ -52,10 +52,13 @@ export const TaskForm: FC<PropsType> = ({ setStatus }) => {
   return (
     <form onSubmit={handleFormSubmit} className={style.container}>
       <HeaderTask title="Новая Заявка" onClick={handleCloseClick} />
+
       <span>Название</span>
       <TextArea value={text.name} onChangeHandle={handleNameChange} />
+
       <span>Описание</span>
       <TextArea value={text.description} onChangeHandle={handleDescriptionChange} />
+
       <Button type="submit" title="Сохранить" />
     </form>
   );

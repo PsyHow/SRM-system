@@ -22,7 +22,6 @@ import {
   selectUsers,
 } from 'selectors';
 import {
-  fetchTags,
   getTaskById,
   setUpdate,
   updateExecutor,
@@ -60,12 +59,9 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
     }
   }, [task.id, isUpdate]);
 
-  useEffect(() => {
-    dispatch(fetchTags());
-  }, []);
-
   const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     event.preventDefault();
+
     const { value } = event.currentTarget;
     const { id } = statuses.filter(status => status.name === value)[0];
 
@@ -73,11 +69,13 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       ...state,
       status: value,
     }));
+
     dispatch(updateStatusData({ ...task, statusId: id, tags: [] }));
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     event.preventDefault();
+
     const { value } = event.currentTarget;
     const { id } = users.filter(user => user.name === value)[0];
 
@@ -85,6 +83,7 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       ...state,
       name: value,
     }));
+
     dispatch(updateExecutor({ ...task, executorId: id, tags: [] }));
   };
 
@@ -107,15 +106,19 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   return (
     <div className={style.container}>
       <HeaderTask title={`№${task.id}`} name={task.name} onClick={handleCloseClick} />
+
       <div className={style.content}>
         <form onSubmit={handleFormSubmit} className={style.leftContent}>
           <div className={style.description}>Описание</div>
           <span className={style.taskDescription}>
             {removeRepeatWordsTags(task.description)}
           </span>
+
           <div className={style.description}>Добавление коментариев</div>
           <TextArea value={comment} onChangeHandle={handleTextChange} />
+
           <Button type="submit" title="Сохранить" />
+
           <UpdateComment task={task} />
         </form>
         <div className={style.rightContent}>

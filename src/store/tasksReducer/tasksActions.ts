@@ -78,3 +78,9 @@ export const getPriorities = (priorities: PrioritiesType[]) =>
     type: ACTION.GET_PRIORITIES,
     payload: priorities,
   } as const);
+
+export const setError = (error: string) =>
+  ({
+    type: ACTION.SET_ERROR,
+    payload: error,
+  } as const);
