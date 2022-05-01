@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux';
 import style from './TaskForm.module.scss';
 
 import { Button, HeaderTask, StatusActive, TextArea } from 'components';
-import { createTaskOData, setUpdate } from 'store';
+import { createTaskOData } from 'store/reducers';
+import { setUpdate } from 'store/reducers/tasks';
 
 type PropsType = {
   setStatus: (value: StatusActive) => void;

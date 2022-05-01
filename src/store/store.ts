@@ -1,21 +1,17 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunk, { ThunkAction } from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
+import thunk from 'redux-thunk';
 
-import { ActionReducer, tasksReducer } from 'store/tasksReducer/tasksReducer';
+import { tasksReducer } from 'store/reducers';
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
   tasksReducer,
 });
 
-export const store = createStore(reducers, applyMiddleware(thunk));
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk),
+});
 
-export type AppRootState = ReturnType<typeof reducers>;
-
-export type AppActionsType = ActionReducer;
-
-export type AppThunkType<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppRootState,
-  unknown,
-  AppActionsType
->;
+export type RootReducerType = typeof rootReducer;
+export type AppRootState = ReturnType<RootReducerType>;

@@ -7,7 +7,7 @@ import style from 'components/TasksList/TasksList.module.scss';
 import { removeRepeatWordsTags } from 'consts/base';
 import { selectIsUpdate, selectTasks } from 'selectors';
 import { selectPriorities } from 'selectors/selectors';
-import { getNewTaskId, getTask, setUpdate } from 'store';
+import { getNewTaskId, getTask, setUpdate } from 'store/reducers/tasks';
 
 export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
 

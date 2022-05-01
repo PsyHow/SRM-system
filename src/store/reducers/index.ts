@@ -1,0 +1,18 @@
+export {
+  tasksReducer,
+  fetchPriorities,
+  getTask,
+  setError,
+  updateExecutor,
+  setUpdate,
+  fetchTasks,
+  fetchUsers,
+  fetchStatuses,
+  fetchTags,
+  updateStatusData,
+  getTaskById,
+  updateTaskData,
+  createTaskOData,
+  initializeApp,
+  getNewTaskId,
+} from './tasks';

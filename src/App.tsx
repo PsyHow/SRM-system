@@ -18,7 +18,8 @@ import {
 } from 'components';
 import { Path } from 'enums';
 import { selectIsUpdate, selectNewTaskId, selectTask } from 'selectors';
-import { fetchTasks, initializeApp } from 'store';
+import {} from 'store';
+import { fetchTasks, initializeApp } from 'store/reducers';
 
 const App: FC = () => {
   const dispatch = useDispatch();

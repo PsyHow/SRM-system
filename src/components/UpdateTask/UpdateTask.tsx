@@ -21,13 +21,13 @@ import {
   selectTask,
   selectUsers,
 } from 'selectors';
+import { getTaskById } from 'store/reducers';
 import {
-  getTaskById,
   setUpdate,
+  updateTaskData,
   updateExecutor,
   updateStatusData,
-  updateTaskData,
-} from 'store';
+} from 'store/reducers/tasks';
 
 type PropsType = {
   setStatus: (value: StatusActive) => void;
