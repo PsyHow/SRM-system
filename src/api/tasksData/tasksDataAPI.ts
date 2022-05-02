@@ -1,6 +1,7 @@
 import { PrioritiesType, TagsType, TaskData, TaskResponse, UsersType } from './types';
 
-import { CreateModel, instance, StatusType, UpdateTaskModel } from 'api';
+import { instance } from 'api/apiConfig';
+import { CreateModel, StatusType, UpdateTaskModel } from 'api/tasksData/types';
 
 const tenantguid = '80ae823f-158a-4c25-8521-2e2025b23c81';
 

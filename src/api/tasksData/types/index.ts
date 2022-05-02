@@ -1,10 +1,10 @@
-export type TaskResponse = {
+export interface TaskResponse {
   value: TaskData[];
   nextPageLink: string;
   count: number;
-};
+}
 
-export type TaskData = {
+export interface TaskData {
   id: number;
   name: string;
   description: string;
@@ -29,9 +29,9 @@ export type TaskData = {
   executorGroupId: number;
   executorGroupName: string;
   lifetimeItems: LifeTimeType[];
-};
+}
 
-export type LifeTimeType = {
+export interface LifeTimeType {
   id: number;
   userName: string;
   lifetimeType: number;
@@ -40,20 +40,20 @@ export type LifeTimeType = {
   fieldName: string;
   oldFieldValue: string;
   newFieldValue: string;
-};
+}
 
-export type TagsType = {
+export interface TagsType {
   id: number;
   name: string;
-};
+}
 
-export type StatusType = {
+export interface StatusType {
   rgb: string;
   id: number;
   name: string;
-};
+}
 
-export type UpdateTaskModel = {
+export interface UpdateTaskModel {
   id?: number;
   name?: string;
   description?: string;
@@ -68,9 +68,9 @@ export type UpdateTaskModel = {
   initiatorId?: number;
   executorId?: number;
   executorGroupId?: number;
-};
+}
 
-export type CreateModel = {
+export interface CreateModel {
   name: string;
   description: string;
   comment?: string;
@@ -84,15 +84,15 @@ export type CreateModel = {
   initiatorId?: number;
   executorId?: number;
   executorGroupId?: number;
-};
+}
 
-export type UsersType = {
+export interface UsersType {
   id: number;
   name: string;
-};
+}
 
-export type PrioritiesType = {
+export interface PrioritiesType {
   rgb: string;
   id: number;
   name: string;
-};
+}

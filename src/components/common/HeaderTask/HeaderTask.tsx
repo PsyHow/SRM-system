@@ -2,13 +2,8 @@ import { FC, memo } from 'react';
 
 import style from './HeaderTask.module.scss';
 
+import { HeaderProps } from 'components/common/HeaderTask/types';
 import { removeRepeatWordsTags } from 'consts/base';
-
-type HeaderProps = {
-  title: string;
-  name?: string;
-  onClick: () => void;
-};
 
 export const HeaderTask: FC<HeaderProps> = memo(({ onClick, title, name }) => (
   <div className={style.header}>

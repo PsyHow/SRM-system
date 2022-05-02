@@ -4,15 +4,14 @@ import { useDispatch } from 'react-redux';
 
 import style from './TaskForm.module.scss';
 
-import { Button, HeaderTask, StatusActive, TextArea } from 'components';
+import { Button } from 'components/common/Button';
+import { HeaderTask } from 'components/common/HeaderTask';
+import { TextArea } from 'components/common/TextArea';
+import { TaskFormProps } from 'components/TaskForm/types';
 import { createTaskOData } from 'store/reducers';
 import { setUpdate } from 'store/reducers/tasks';
 
-type PropsType = {
-  setStatus: (value: StatusActive) => void;
-};
-
-export const TaskForm: FC<PropsType> = ({ setStatus }) => {
+export const TaskForm: FC<TaskFormProps> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState({ name: '', description: '' });
 

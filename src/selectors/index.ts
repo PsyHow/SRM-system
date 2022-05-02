@@ -5,4 +5,4 @@ export {
   selectTasks,
   selectUsers,
   selectIsUpdate,
-} from './selectors';
+} from './tasks';

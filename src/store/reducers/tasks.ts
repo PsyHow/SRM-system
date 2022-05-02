@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { tasksDataAPI } from 'api/tasksData/tasksDataAPI';
 import {
   CreateModel,
   PrioritiesType,
@@ -8,8 +9,7 @@ import {
   TaskData,
   UpdateTaskModel,
   UsersType,
-} from 'api';
-import { tasksDataAPI } from 'api/tasksData/tasksDataAPI';
+} from 'api/tasksData/types';
 
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
@@ -119,7 +119,7 @@ export const updateExecutor = createAsyncThunk(
 
     try {
       dispatch(setUpdate(true));
-      return { taskData: res.data };
+      return { taskData: { id: res.data.id, userId: res.data.userId } };
     } catch (error) {
       dispatch(setError((error as Error).message));
       return rejectWithValue(null);

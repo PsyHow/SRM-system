@@ -4,15 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import style from './UpdateTask.module.scss';
 
-import {
-  Button,
-  HeaderTask,
-  Select,
-  StatusActive,
-  TextArea,
-  UpdateComment,
-  UpdateConfig,
-} from 'components';
+import { Button } from 'components/common/Button';
+import { HeaderTask } from 'components/common/HeaderTask';
+import { Select } from 'components/common/Select';
+import { TextArea } from 'components/common/TextArea';
+import { UpdateTaskProps } from 'components/UpdateTask/types';
+import { UpdateComment } from 'components/UpdateTask/UpdateComment';
+import { UpdateConfig } from 'components/UpdateTask/UpdateConfig';
 import { removeRepeatWordsTags } from 'consts/base';
 import {
   selectIsUpdate,
@@ -21,19 +19,10 @@ import {
   selectTask,
   selectUsers,
 } from 'selectors';
-import { getTaskById } from 'store/reducers';
-import {
-  setUpdate,
-  updateTaskData,
-  updateExecutor,
-  updateStatusData,
-} from 'store/reducers/tasks';
+import { updateStatusData, getTaskById } from 'store/reducers';
+import { setUpdate, updateTaskData } from 'store/reducers/tasks';
 
-type PropsType = {
-  setStatus: (value: StatusActive) => void;
-};
-
-export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
+export const UpdateTask: FC<UpdateTaskProps> = ({ setStatus }) => {
   const dispatch = useDispatch();
   const task = useSelector(selectTask);
   const statuses = useSelector(selectStatuses);
@@ -41,10 +30,6 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
   const isUpdate = useSelector(selectIsUpdate);
   const newTaskId = useSelector(selectNewTaskId);
 
-  const [select, setSelect] = useState<{ name: string; status: string }>({
-    name: task.executorName,
-    status: task.statusName,
-  });
   const [comment, setComment] = useState<string>('');
 
   useEffect(() => {
@@ -58,34 +43,6 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
       dispatch(getTaskById(task.id));
     }
   }, [task.id, isUpdate]);
-
-  const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-    event.preventDefault();
-
-    const { value } = event.currentTarget;
-    const { id } = statuses.filter(status => status.name === value)[0];
-
-    setSelect(state => ({
-      ...state,
-      status: value,
-    }));
-
-    dispatch(updateStatusData({ ...task, statusId: id, tags: [] }));
-  };
-
-  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-    event.preventDefault();
-
-    const { value } = event.currentTarget;
-    const { id } = users.filter(user => user.name === value)[0];
-
-    setSelect(state => ({
-      ...state,
-      name: value,
-    }));
-
-    dispatch(updateExecutor({ ...task, executorId: id, tags: [] }));
-  };
 
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setComment(event.currentTarget.value);
@@ -126,17 +83,14 @@ export const UpdateTask: FC<PropsType> = ({ setStatus }) => {
             <div style={{ backgroundColor: task.statusRgb }} className={style.circle} />
             <span className={style.status}>{task.statusName}</span>
             <Select
-              value={select.status}
+              value={task.statusName}
               options={statuses}
-              onChangeHandle={handleStatusChange}
+              task={task}
+              id="status"
+              actionCreator={updateStatusData}
             />
           </div>
-          <UpdateConfig
-            users={users}
-            task={task}
-            onChange={handleUserChange}
-            value={select.name}
-          />
+          <UpdateConfig users={users} task={task} />
         </div>
       </div>
     </div>

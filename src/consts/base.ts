@@ -1,5 +1,7 @@
 import { LifeTimeType, TaskData } from 'api/tasksData/types';
 
+export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
+
 export const resolutionDate = (task: TaskData): string =>
   new Date(task.resolutionDatePlan).toLocaleString('ru', {
     day: 'numeric',

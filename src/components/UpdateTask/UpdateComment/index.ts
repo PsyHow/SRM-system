@@ -1,0 +1,1 @@
+export { UpdateComment } from './UpdateComment';

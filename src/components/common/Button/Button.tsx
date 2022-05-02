@@ -2,11 +2,7 @@ import { FC } from 'react';
 
 import style from './Button.module.scss';
 
-type ButtonProps = {
-  title: string;
-  onClick?: () => void;
-  type: 'button' | 'submit' | 'reset' | undefined;
-};
+import { ButtonProps } from 'components/common/Button/types';
 
 export const Button: FC<ButtonProps> = ({ title, onClick, type }) => (
   // eslint-disable-next-line react/button-has-type
@@ -14,7 +10,3 @@ export const Button: FC<ButtonProps> = ({ title, onClick, type }) => (
     {title}
   </button>
 );
-
-Button.defaultProps = {
-  onClick: () => {},
-};

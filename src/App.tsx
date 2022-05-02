@@ -5,20 +5,19 @@ import { Route, Routes } from 'react-router-dom';
 
 import style from './App.module.scss';
 
+import { Header } from 'components/Header';
+import { Navigation } from 'components/Navigation';
 import {
   AnalyticsPage,
   ClientsPage,
   ErrorPage,
-  Header,
   KnowledgePage,
-  Navigation,
   SettingsPage,
-  TasksList,
   UsersPage,
-} from 'components';
+} from 'components/pages';
+import { TasksList } from 'components/TasksList';
 import { Path } from 'enums';
 import { selectIsUpdate, selectNewTaskId, selectTask } from 'selectors';
-import {} from 'store';
 import { fetchTasks, initializeApp } from 'store/reducers';
 
 const App: FC = () => {

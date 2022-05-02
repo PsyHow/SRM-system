@@ -1,1 +1,1 @@
-export * from './types';
+export { tasksDataAPI } from './tasksDataAPI';

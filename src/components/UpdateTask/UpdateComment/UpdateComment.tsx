@@ -2,13 +2,9 @@ import { FC } from 'react';
 
 import style from './UpdateComment.module.scss';
 
-import { TaskData } from 'api';
+import { UpdateCommentProps } from 'components/UpdateTask/UpdateComment/types';
 import { commentDate } from 'consts';
 import { removeRepeatWordsTags } from 'consts/base';
-
-type UpdateCommentProps = {
-  task: TaskData;
-};
 
 export const UpdateComment: FC<UpdateCommentProps> = ({ task }) => (
   <div>

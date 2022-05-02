@@ -2,21 +2,24 @@ import { FC, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, TaskForm, UpdateTask } from 'components';
+import { Button } from 'components/common/Button';
+import { TaskForm } from 'components/TaskForm';
 import style from 'components/TasksList/TasksList.module.scss';
+import { UpdateTask } from 'components/UpdateTask';
+import { StatusActive } from 'consts';
 import { removeRepeatWordsTags } from 'consts/base';
 import { selectIsUpdate, selectTasks } from 'selectors';
-import { selectPriorities } from 'selectors/selectors';
+import { selectPriorities } from 'selectors/tasks';
 import { getNewTaskId, getTask, setUpdate } from 'store/reducers/tasks';
 
-export type StatusActive = 'CREATE' | 'UPDATE' | 'DEFAULT';
-
 export const TasksList: FC = () => {
-  const [status, setStatus] = useState<StatusActive>('DEFAULT');
   const dispatch = useDispatch();
+
   const tasks = useSelector(selectTasks);
   const isUpdate = useSelector(selectIsUpdate);
   const priorities = useSelector(selectPriorities);
+
+  const [status, setStatus] = useState<StatusActive>('DEFAULT');
 
   const handleClick = (): void => {
     dispatch(setUpdate(false));

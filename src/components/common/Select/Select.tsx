@@ -1,19 +1,24 @@
-import { ChangeEvent, FC } from 'react';
+import { FC } from 'react';
 
 import style from './Select.module.scss';
 
-import { StatusType, UsersType } from 'api';
+import { SelectProps } from 'components/common/Select/types';
+import { useSelect } from 'hooks/useSelect/useSelect';
 
-type SelectProps = {
-  value: string;
-  options: UsersType[] | StatusType[];
-  onChangeHandle: (event: ChangeEvent<HTMLSelectElement>) => void;
+export const Select: FC<SelectProps> = ({ options, value, id, task, actionCreator }) => {
+  const { selectValue, handleSelectChange } = useSelect({
+    value,
+    id,
+    options,
+    task,
+    actionCreator,
+  });
+
+  const mappedOptions = options.map(item => <option key={item.id}>{item.name}</option>);
+
+  return (
+    <select value={selectValue} className={style.select} onChange={handleSelectChange}>
+      {mappedOptions}
+    </select>
+  );
 };
-
-export const Select: FC<SelectProps> = ({ options, onChangeHandle, value }) => (
-  <select value={value} className={style.select} onChange={onChangeHandle}>
-    {options.map(item => (
-      <option key={item.id}>{item.name}</option>
-    ))}
-  </select>
-);
