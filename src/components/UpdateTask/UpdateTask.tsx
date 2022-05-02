@@ -19,8 +19,8 @@ import {
   selectTask,
   selectUsers,
 } from 'selectors';
-import { updateStatusData, getTaskById } from 'store/reducers';
-import { setUpdate, updateTaskData } from 'store/reducers/tasks';
+import { updateStatusData, getTaskById, updateTaskData } from 'store/middleware';
+import { setUpdate } from 'store/reducers/tasks';
 
 export const UpdateTask: FC<UpdateTaskProps> = ({ setStatus }) => {
   const dispatch = useDispatch();

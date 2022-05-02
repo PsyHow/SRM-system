@@ -8,7 +8,7 @@ import { Button } from 'components/common/Button';
 import { HeaderTask } from 'components/common/HeaderTask';
 import { TextArea } from 'components/common/TextArea';
 import { TaskFormProps } from 'components/TaskForm/types';
-import { createTaskOData } from 'store/reducers';
+import { createTaskOData } from 'store/middleware';
 import { setUpdate } from 'store/reducers/tasks';
 
 export const TaskForm: FC<TaskFormProps> = ({ setStatus }) => {

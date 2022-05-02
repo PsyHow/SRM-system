@@ -18,7 +18,7 @@ import {
 import { TasksList } from 'components/TasksList';
 import { Path } from 'enums';
 import { selectIsUpdate, selectNewTaskId, selectTask } from 'selectors';
-import { fetchTasks, initializeApp } from 'store/reducers';
+import { fetchTasks, initializeApp } from 'store/middleware';
 
 const App: FC = () => {
   const dispatch = useDispatch();

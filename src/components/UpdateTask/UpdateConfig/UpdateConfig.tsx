@@ -6,7 +6,7 @@ import icon from 'assets/images/calendar.png';
 import { Select } from 'components/common/Select';
 import { UpdateConfigProps } from 'components/UpdateTask/UpdateConfig/types';
 import { resolutionDate } from 'consts';
-import { updateExecutor } from 'store/reducers';
+import { updateExecutor } from 'store/middleware';
 
 export const UpdateConfig: FC<UpdateConfigProps> = memo(({ task, users }) => (
   <div className={style.container}>
